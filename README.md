@@ -11,17 +11,14 @@
   - Node.js & NPM
   - Vite
   - Install React with Vite
-- JSX
   
  ## DAY 02
-- TENTATIVO CICLO DE VIDA
-- Components:
-  -
-  -
-  -
-- First Component: 
-  - Hello World with React
+- Components
+  - My first component
+  - Reusable components
+  - JSX
 - Props
+- Conditional rendering
 - Events
 - Hooks
 
