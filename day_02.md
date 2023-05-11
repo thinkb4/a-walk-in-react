@@ -8,9 +8,10 @@
         - [Reusable components](#reusable-components)
         - [JSX](#jsx)
     - [Props](#props)
-    - Conditional rendering
-    - Events
-    - Hooks
+      - [What are props](#what-are-props)
+      - [Props default value](#props-default-value)
+      - [Props as children](#props-as-children)
+    - [Conditional rendering](#conditional-rendering)
 
 > *Note:* As we move further in the course, we encourage you to copy and paste the code examples we provide in the application we created in the first lessson. Be sure to run the application so you can see you first React code in action! And feel free to make your own modifications and exprement with the results.   
 
@@ -73,6 +74,7 @@ export default function MyComponens() {
 
 In the code above we could say MyComponents is the "parent" and MyFirstComponent is the "child" component. You can keep multiple components in the same file, but you must never nest their definitions.   
 As you files grow larger and your components more complex, you can move your components to separate files and import them where you will need them. 
+A component can have several child components, and at the same time those may have child components themselves. Just like in HTML the nesting of components is limitless. 
 
 ```javascript
 // 🔴 Never define a component inside another component!  
@@ -165,4 +167,244 @@ src={name}
 > *Note:* If you wiss to pass in a JavaScript object you can use double cursly braces, which is no special syntax, it’s just a JavaScript object tucked inside JSX curly braces. 
 
 
-### Props
+## Props  
+
+### What are props?
+
+We've been mentioning how React components are ment to be reusable, but what does that really implies? Let's look a the following example:
+
+```javascript
+function Card () {
+  return (
+    <div>
+      <h3>Jhon Snow</h3>
+      <p>Age: 31</p>
+    </div>
+  )
+}
+```
+This is a valid React component, it can be imported into other compontents and be reused. But let's look at the output of doing so: 
+
+```javascript
+function Card () {
+  return (
+    <div>
+      <h3>Jhon Snow</h3>
+    </div>
+  )
+}
+
+export default function App() {
+  return (
+    <div className="App">
+      <h1>Characters</h1>
+      <h2>This is a list of characters from "A song of Ice and Fire"</h2>
+      <Card/>
+      <Card/>
+      <Card/>
+    </div>
+  );
+}
+```
+If you ran the code, then you undestand that we now have a problem: Our list of characters only includes Jhon Snow! 
+So you may be tempted to create a new component that returns, say Daenarys Targaryen, and then another for Jamie Lannister and so on. However you will have to copy paste all the styles and logic only to change the name of the character that's returned. Our component displays only static data and this goes against the idea of reusability.  
+A better approach to this would be to use the same *Card* component and make the name of the character dynamic, and that's where **Props** come in.  
+Props are the way React components comunicate with each other. Through them, parents can pass **any Javascript value** to a child component.
+
+JSX tags can recive any of the [HTML standard](https://html.spec.whatwg.org/multipage/embedded-content.html#the-img-element) predefined props with information. However your custom components can recive any type of data through props.
+
+In the following code the parent component *App* is passing "name" props to the *Card* child component.  
+
+```javascript
+function Card ({name}) {
+  return (
+    <div>
+      <h3>{name}</h3>
+    </div>
+  )
+}
+
+export default function App() {
+  return (
+    <div className="App">
+      <h1>Characters</h1>
+      <h2>This is a list of characters from "A song of Ice and Fire"</h2>
+      <Card name={"Jhon Snow"}/>
+      <Card name={"Daenarys Targaryen"}/>
+      <Card name={"Jamie Lannister"}/>
+    </div>
+  );
+}
+```
+**Passing props**  
+Any parent component can pass props to it's children, and they can be any Javascript value. To do so you can add them as properties in the JSX code, similar to HTML tag properties.
+
+**Reading props**  
+In the child component properties will be recieved in a Javascript object and they must be passed as a parameter in the function. As a convetion we use the word *props*. 
+
+
+```javascript
+function Card (props) {
+  return (
+    <div>
+      <h3>{props.name}</h3>
+      <div>
+        <div>House: {props.house}</div>
+        <div>Age: {props.age}</div>
+      </div>
+    </div>
+  )
+}
+
+export default function App() {
+  return (
+    <div className="App">
+      <h1>Characters</h1>
+      <h2>This is a list of characters from "A song of Ice and Fire"</h2>
+      <Card 
+        name={"Jhon Snow"}
+        house={"Stark"}
+        age={24}
+      />
+      <Card 
+        name={"Daenerys Targaryen"}
+        house={"Targaryen"}
+        age={18}
+      />
+      <Card 
+        name={"Jamie Lannister"}
+        house={"Lannister"}
+        age={43}
+      />
+    </div>
+  );
+}
+```
+
+*Exercise:* Try running the code and add a console.log(props) in the line above the return. Check what was logged in the console, then try changing the word "props" for any word, has the log in the console changed? 
+
+You may have noticed we removed the curly braces around the *props* parameter. This is because we recieve the object and then access its properties with the dot operator.  
+Another posibility is to use [destructuring for the object](https://www.freecodecamp.org/news/destructuring-patterns-javascript-arrays-and-objects/) in the following way: 
+
+```javascript
+function Card ({name, house, age}) {
+  return (
+    <div>
+      <h3>{name}</h3>
+      <div>
+        <div>House: {house}</div>
+        <div>Age: {age}</div>
+      </div>
+    </div>
+  )
+}
+
+export default function App() {
+  return (
+    <div className="App">
+      <h1>Characters</h1>
+      <h2>This is a list of characters from "A song of Ice and Fire"</h2>
+      <Card 
+        name={"Jhon Snow"}
+        house={"Stark"}
+        age={24}
+      />
+      <Card 
+        name={"Daenerys Targaryen"}
+        house={"Targaryen"}
+        age={18}
+      />
+      <Card 
+        name={"Jamie Lannister"}
+        house={"Lannister"}
+        age={43}
+      />
+    </div>
+  );
+}
+```
+
+> *Remember:* It's all Javascript under the hood.
+
+### Props default value 
+React allows you to set a **default value** to fall back on when none is specified. To do so, use destructuring and add a value using the assignment operator.  
+If no value is provided or the value is undefined for that propertie, then the default value will be used. If you want to avoid setting the default, but don't want to pass any value, you can set it to *0* or *null*.  
+
+```javascript
+function Card ({name, house, age = 50 }) {
+  return (
+    <div>
+      <h3>{name}</h3>
+      <div>
+        <div>House: {house}</div>
+        <div>Age: {age}</div>
+      </div>
+    </div>
+  )
+}
+
+export default function App() {
+  return (
+    <div className="App">
+      <h1>Characters</h1>
+      <h2>This is a list of characters from "A song of Ice and Fire"</h2>
+      <Card 
+        name={"Jhon Snow"}
+        house={"Stark"}
+      />
+      <Card 
+        name={"Daenerys Targaryen"}
+        house={"Targaryen"}
+        age={undefined}
+      />
+      <Card 
+        name={"Jamie Lannister"}
+        house={"Lannister"}
+        age={null}
+      />
+    </div>
+  );
+}
+```
+
+### Props as children
+
+If your intention is to nest content in a JSX tag, you can pass props and the child component will recieve the content in the *children* propertie.
+
+```javascript
+function Form (props) {
+  return (
+    <ul>
+      <li>House: {props.house}</li>
+      <li>Age: {props.age} </li>
+    </ul>
+  )
+}
+
+function Card (props) {
+  return (
+    <div>
+      <h3>{props.name}</h3>
+      {props.children}
+    </div>
+  )
+}
+
+export default function App() {
+  return (
+    <div className="App">
+      <h1>Character profile</h1>
+      <Card name={"Jhon Snow"}>
+        <Form house={"Stark"} age={24}/>
+      </Card>
+    </div>
+  );
+}
+```
+
+> *Note:* Props are inmutable! They cannot be changed. However you may need to change a prop value, to do so the parent component will need to pass new props (different props) and the old ones will be discarded. This is handeled through *State*, and will learn more about that soon. 
+
+### Conditional Rendering
+
+In React you can conditionally render JSX components using Javascript syntax.
+
