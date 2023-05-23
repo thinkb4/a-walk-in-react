@@ -12,6 +12,10 @@
       - [Props default value](#props-default-value)
       - [Props as children](#props-as-children)
     - [Conditional rendering](#conditional-rendering)
+    - [Rendering lists](#rendering-lists)
+      - [Renderdin data from arrays](#rendering-data-from-arrays)
+      - [Filtering data](#filtering-data)
+      - [Key prop](#key-prop)
 
 > *Note:* As we move further in the course, we encourage you to copy and paste the code examples we provide in the application we created in the first lessson. Be sure to run the application so you can see you first React code in action! And feel free to make your own modifications and exprement with the results.   
 
@@ -117,7 +121,7 @@ You may see some code that leaves off the .js file extension in the import, and 
 > *Note:* There are two primary ways to export values with JavaScript: default exports and named exports. So far, our examples have only used default exports. But you can use one or both of them in the same file. A file can have no more than one default export, but it can have as many named exports as you like. This will affect how you import the file. Checkout this [MDN doc](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#description) for more info.
 
 
-### JSX
+## JSX
 
 The official React docs define JSX as *"a syntax extension for JavaScript that lets you write HTML-like markup inside a JavaScript file."*
 
@@ -404,7 +408,325 @@ export default function App() {
 
 > *Note:* Props are inmutable! They cannot be changed. However you may need to change a prop value, to do so the parent component will need to pass new props (different props) and the old ones will be discarded. This is handeled through *State*, and will learn more about that soon. 
 
-### Conditional Rendering
+## Conditional Rendering
 
-In React you can conditionally render JSX components using Javascript syntax.
+In React you can conditionally render JSX components using Javascript syntax. An option would be to use an if statement in the following way:
+
+````javascript
+function Item({ name, isDone }) {
+  if (isDone) {
+    return <li className="item">{name} ✔</li>;
+  }
+  return <li className="item">{name}</li>;
+}
+
+export default function TodoList() {
+  return (
+    <section>
+      <h1>Todo List</h1>
+      <ul>
+        <Item 
+          isDone={true} 
+          name="Buy milk" 
+        />
+        <Item 
+          isDone={true} 
+          name="Study for test" 
+        />
+        <Item 
+          isDone={false} 
+          name="Paint garage" 
+        />
+      </ul>
+    </section>
+  );
+}
+````
+
+>*Note:* In case nothing should be returned if the condition is not met, you can use *null*. Try running the code, changing the *isDone* property or returning null if *isDone* is true. 
+
+But the [ternary operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator) offers a more compact and easy to read syntax for this purpose.
+
+````javascript
+function Item({ name, isDone }) {
+    return <li className="item"> {isDone ? name + ' ✔' : name}</li>;
+}
+
+export default function TodoList() {
+  return (
+    <section>
+      <h1>Todo List</h1>
+      <ul>
+        <Item 
+          isDone={true} 
+          name="Buy milk" 
+        />
+        <Item 
+          isDone={true} 
+          name="Study for test" 
+        />
+        <Item 
+          isDone={false} 
+          name="Paint garage" 
+        />
+      </ul>
+    </section>
+  );
+}
+````
+You can read it as *“if isDone is true, then render name + ' ✔', otherwise render name”.*
+
+Another option is to use the [logical AND (&&)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_AND) operator, which will evaluate the conditions from left to right and return the first [falsy value](https://www.freecodecamp.org/news/falsy-values-in-javascript/), or the last truthy, if they are all truthy. This is also known as short circuit evaluation.
+
+Consider the following example:
+
+````javascript
+function Item({ name, isDone }) {
+  return (
+    <li className="item">
+      {name} {isDone && '✔'}
+    </li>
+  );
+}
+
+export default function TodoList() {
+  return (
+    <section>
+      <h1>To Do List</h1>
+      <ul>
+        <Item 
+          isDone={true} 
+          name="Space suit" 
+        />
+        <Item 
+          isDone={true} 
+          name="Helmet with a golden leaf" 
+        />
+        <Item 
+          isDone={false} 
+          name="Photo of Tam" 
+        />
+      </ul>
+    </section>
+  );
+}
+````
+
+The '✔' is visible only when *isDone* is true, but if it is false then the '✔' is never evaluated.
+
+*Note:* Be aware of using numbers on the left side of AND (&&) operators, like in the following example:
+
+````javascript
+function Item({ counter }) {
+  return (
+    counter && <h1>Hello world</h1>
+  );
+}
+
+export default function Example() {
+  return (
+    <section>
+        <Item 
+          counter={0} 
+        />
+
+    </section>
+  );
+}
+````
+ Run the code and try changing the value of counter. If *counter* is 0 then the h1 tag will not be evaluated and the operator returns 0 (the first falsy condition). 
+
+ A good rule of thumb regarding conditional rendering of components in Recat could be to use a ternary operator when you need to choose between one or the other (wheater is a component, class or element) and the AND operator to check wheather a component is render or not.
+ But still they are all valid options and it's best to decide what fits better in each scenario, and attempting to be consistent in the its use throughout the project.  
+
+
+## Rendering lists
+
+Whilst creating your React app you will often need to display lists of data, or simply rendering the same component multiple times with different props. 
+To achive this you can use Javascript mapping function and create JSX code on each element you map.    
+### Renderdin data from arrays
+
+We can use the [map()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map) method to take regular Javascript data and turn it into JSX elements that can be rendered in out app. 
+
+````javascript
+export default function TravelList() {
+
+  const destinations = [
+    {
+      city: 'London',
+      country: 'England',
+      population: '8.982 million',
+      area: 1572
+    },
+    {
+      city: 'New York',
+      country: 'USA',
+      population: '8.468 million',
+      area: 783.8
+    },
+    {
+      city: 'Athens',
+      country: 'Greece',
+      population: '3.154 million',
+      area: 38.96 
+    },
+    {
+      city: 'Rome',
+      country: 'Italy',
+      population: '2.873 million',
+      area: 1285
+    } 
+  ]
+
+  const travelList = destinations.map(destination => (
+    <div>
+      <h3>{destination.city}</h3>
+      <ul>
+        <li>Country: {destination.country}</li>
+        <li>Population: {destination.population}</li>
+        <li>Area: {destination.area + ' km²'}</li>
+      </ul>
+    </div>
+   ))
+
+  return (
+    <div>
+      <h1>Travel List</h1>
+      {travelList}
+    </div>
+  );
+}
+````
+
+> What happenes if you add or remove an element from the list? 
+
+As a result of using the map method we get cleaner code and a more efficient way of displaying data. 
+
+### Filtering data
+
+But what if we only want to display cities with an area below 1.000 km²? In that case we can use the javascript [filter()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter) method and subsequently map the what was returned. 
+
+````javascript 
+export default function TravelList() {
+
+  const destinations = [
+    {
+      city: 'London',
+      country: 'England',
+      population: '8.982 million',
+      area: 1572
+    },
+    {
+      city: 'New York',
+      country: 'USA',
+      population: '8.468 million',
+      area: 783.8
+    },
+    {
+      city: 'Athens',
+      country: 'Greece',
+      population: '3.154 million',
+      area: 38.96 
+    },
+    {
+      city: 'Rome',
+      country: 'Italy',
+      population: '2.873 million',
+      area: 1285
+    } 
+  ]
+
+  const areaUnderThousand = destinations.filter(destination => destination.area < 1000)
+
+  const travelList = areaUnderThousand.map(destination => (
+    <div>
+      <h3>{destination.city}</h3>
+      <ul>
+        <li>Country: {destination.country}</li>
+        <li>Population: {destination.population}</li>
+        <li>Area: {destination.area + ' km²'}</li>
+      </ul>
+    </div>
+   ))
+   
+  return (
+    <div>
+      <h1>Travel List</h1>
+      {travelList}
+    </div>
+  );
+}
+
+````
+
+> Remember it's all Javascript under the hood
+
+### Key prop
+
+When you ran the exaples above you most likely noticed an error in the Console: 
+> Warning: Each child in a list should have a unique “key” prop.
+
+This is because React requires you to provide a unique identifier to each item on the array, to avoid errors if some data where to be deleted or edited. Usually the data we fetch will have it's own unique id, and the way to use it is to give each array item a *key* prop with the unique id.
+
+````javascript 
+export default function TravelList() {
+
+  const destinations = [
+    {
+      city: 'London',
+      country: 'England',
+      population: '8.982 million',
+      area: 1572,
+      id: 1
+    },
+    {
+      city: 'New York',
+      country: 'USA',
+      population: '8.468 million',
+      area: 783.8,
+      id: 2
+    },
+    {
+      city: 'Athens',
+      country: 'Greece',
+      population: '3.154 million',
+      area: 38.96 ,
+      id: 3
+    },
+    {
+      city: 'Rome',
+      country: 'Italy',
+      population: '2.873 million',
+      area: 1285,
+      id: 4
+    } 
+  ]
+
+  const areaUnderThousand = destinations.filter(destination => destination.area < 1000)
+
+  const travelList = areaUnderThousand.map(destination => (
+    <div key={destination.id}>
+      <h3>{destination.city}</h3>
+      <ul>
+        <li>Country: {destination.country}</li>
+        <li>Population: {destination.population}</li>
+        <li>Area: {destination.area + ' km²'}</li>
+      </ul>
+    </div>
+   ))
+   
+  return (
+    <div>
+      <h1>Travel List</h1>
+      {travelList}
+    </div>
+  );
+}
+
+````
+
+In the container div where we map the filtered cities we added the *key* property and passed the id value onto it.  
+
+
+
 

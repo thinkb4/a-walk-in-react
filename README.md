@@ -13,13 +13,20 @@
   - Install React with Vite
   
  ## DAY 02
-- Components
-  - My first component
-  - Reusable components
-  - JSX
-- Props
-- Conditional rendering
-- Events
-- Hooks
+  - Components
+    - My first component
+    - Reusable components
+    - JSX
+  - Props
+    - What are props
+    - Props default value
+    - Props as children
+  - Conditional rendering
+  - Rendering lists
+    - Renderdin data from arrays
+    - Filtering data
+    - Key prop
 
 ## DAY 03 
+
+
