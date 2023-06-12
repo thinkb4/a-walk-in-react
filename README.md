@@ -11,18 +11,22 @@
   - Node.js & NPM
   - Vite
   - Install React with Vite
-- JSX
   
  ## DAY 02
-- TENTATIVO CICLO DE VIDA
-- Components:
-  -
-  -
-  -
-- First Component: 
-  - Hello World with React
-- Props
-- Events
-- Hooks
+  - Components
+    - My first component
+    - Reusable components
+    - JSX
+  - Props
+    - What are props
+    - Props default value
+    - Props as children
+  - Conditional rendering
+  - Rendering lists
+    - Renderdin data from arrays
+    - Filtering data
+    - Key prop
 
 ## DAY 03 
+
+
