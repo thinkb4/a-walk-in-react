@@ -223,7 +223,7 @@ In the following code the parent component *App* is passing "name" props to the 
 function Card ({name}) {
   return (
     <div>
-      <h3>{name}</h3>
+      <p>{name}</p>
     </div>
   )
 }
@@ -233,9 +233,9 @@ export default function App() {
     <div className="App">
       <h1>Characters</h1>
       <h2>This is a list of characters from "A song of Ice and Fire"</h2>
-      <Card name={"Jhon Snow"}/>
-      <Card name={"Daenarys Targaryen"}/>
-      <Card name={"Jamie Lannister"}/>
+      <Card name="Jhon Snow"/>
+      <Card name="Daenarys Targaryen"/>
+      <Card name="Jamie Lannister"/>
     </div>
   );
 }
@@ -251,11 +251,11 @@ In the child component properties will be recieved in a Javascript object and th
 function Card (props) {
   return (
     <div>
-      <h3>{props.name}</h3>
-      <div>
-        <div>House: {props.house}</div>
-        <div>Age: {props.age}</div>
-      </div>
+      <h4>{props.name}</h4>
+      <ul>
+        <li>House: {props.house}</li>
+        <li>Age: {props.age}</li>
+      </ul>
     </div>
   )
 }
@@ -266,18 +266,18 @@ export default function App() {
       <h1>Characters</h1>
       <h2>This is a list of characters from "A song of Ice and Fire"</h2>
       <Card 
-        name={"Jhon Snow"}
-        house={"Stark"}
+        name="Jhon Snow"
+        house="Stark"
         age={24}
       />
       <Card 
-        name={"Daenerys Targaryen"}
-        house={"Targaryen"}
+        name="Daenerys Targaryen"
+        house="Targaryen"
         age={18}
       />
       <Card 
-        name={"Jamie Lannister"}
-        house={"Lannister"}
+        name="Jamie Lannister"
+        house="Lannister"
         age={43}
       />
     </div>
@@ -295,10 +295,10 @@ function Card ({name, house, age}) {
   return (
     <div>
       <h3>{name}</h3>
-      <div>
-        <div>House: {house}</div>
-        <div>Age: {age}</div>
-      </div>
+      <ul>
+        <li>House: {house}</li>
+        <li>Age: {age}</li>
+      </ul>
     </div>
   )
 }
@@ -309,18 +309,18 @@ export default function App() {
       <h1>Characters</h1>
       <h2>This is a list of characters from "A song of Ice and Fire"</h2>
       <Card 
-        name={"Jhon Snow"}
-        house={"Stark"}
+        name="Jhon Snow"
+        house="Stark"
         age={24}
       />
       <Card 
-        name={"Daenerys Targaryen"}
-        house={"Targaryen"}
+        name="Daenerys Targaryen"
+        house="Targaryen"
         age={18}
       />
       <Card 
-        name={"Jamie Lannister"}
-        house={"Lannister"}
+        name="Jamie Lannister"
+        house="Lannister"
         age={43}
       />
     </div>
@@ -339,10 +339,10 @@ function Card ({name, house, age = 50 }) {
   return (
     <div>
       <h3>{name}</h3>
-      <div>
-        <div>House: {house}</div>
-        <div>Age: {age}</div>
-      </div>
+      <ul>
+        <li>House: {house}</li>
+        <li>Age: {age}</li>
+      </ul>
     </div>
   )
 }
@@ -353,17 +353,17 @@ export default function App() {
       <h1>Characters</h1>
       <h2>This is a list of characters from "A song of Ice and Fire"</h2>
       <Card 
-        name={"Jhon Snow"}
-        house={"Stark"}
+        name="Jhon Snow"
+        house="Stark"
       />
       <Card 
-        name={"Daenerys Targaryen"}
-        house={"Targaryen"}
+        name="Daenerys Targaryen"
+        house="Targaryen"
         age={undefined}
       />
       <Card 
-        name={"Jamie Lannister"}
-        house={"Lannister"}
+        name="Jamie Lannister"
+        house="Lannister"
         age={null}
       />
     </div>
@@ -398,8 +398,8 @@ export default function App() {
   return (
     <div className="App">
       <h1>Character profile</h1>
-      <Card name={"Jhon Snow"}>
-        <Form house={"Stark"} age={24}/>
+      <Card name="Jhon Snow">
+        <Form house="Stark" age={24}/>
       </Card>
     </div>
   );
