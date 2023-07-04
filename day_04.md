@@ -17,9 +17,9 @@
 
 ## Styling React components
 
-There are many ways you can style your react components, and whilst React doesn't officially recomend a specific one, we will go over some of the most popular methods used and some of the pros and cons of each of them. These methods can be used simultaneously, but they may interfiere whith one another so it's important to plan ahead and document your styling choices. 
+There are many ways you can style your react components, and whilst React doesn't officially recommend a specific one, we will go over some of the most popular methods used and some of the pros and cons of each of them. These methods can be used simultaneously, but they may interfiere whith one another so it's important to plan ahead and document your styling choices. 
 
-> *Note:* Remember that ultimately we are always writing CSS, the diference lies in the aproaches we take. 
+> *Note:* Remember that ultimately we are always writing CSS, the difference lies in the aproaches we take. 
 
 ### Inline style
 ---
@@ -77,8 +77,8 @@ Inline styling is not recommended as the  primary means of styling projects, it'
 
 ### CSS stylesheet
 ---
-A more preformant option is adding a stylesheet by createing a new .css file in your proyect directory and importing it into the application.
-This approach possibly the most accesible one since all front end developers know how wirte CSS so there is really no new tool to learn, and it requires no dependencies sinse it has native browser support. Still you may run into issues if your proyect is of meduim or large sacel or if you are collaborating with other developers.      
+A more preformant option is adding a stylesheet by creating a new .css file in your proyect directory and importing it into the application.
+This approach possibly the most accesible one since all front end developers know how to write CSS so there is really no new tool to learn, and it requires no dependencies since it has native browser support. Still you may run into issues if your proyect is of medium or large sacel or if you are collaborating with other developers.      
 In order to add classes to a component you must use *className*, since class is a Javascript reserved word. 
 
 ````javascript
@@ -280,7 +280,7 @@ Copy this code in your project and check the console. How many times does the co
 **Summary:**   
 The dependencies array should contain every value used by the Effect.
 - If there is no array the Effect will ran every time the component renders.
-- An empty array will caouse the Effect to run once after the  initial render.
+- An empty array will cause the Effect to run once after the  initial render.
 - Dependencies should include all the values inside the component that are used inside the effect.
 
 > *Note:* Keep in mind if those values are constantly updated it will cause Effect to constantly rerun.
