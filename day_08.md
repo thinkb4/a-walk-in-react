@@ -37,7 +37,7 @@ First of all, we need to import all the required components from `react-router-d
 
 ````
 
-After we have imported all the components that React Router provides us let's start building our Routes. For creating the routes, we need to wrap our application with the `<Router/>` component. Inside the `<Router/>` component we can create our layout. In this example we have simple layout that's made with a `<NavBar/>` and `<Footer/>` components. Every component that's outside the `<Switch/>` component will remain untouched.  When a <Switch> is rendered, it searches through its children <Route> elements to find one whose path matches the current URL. When it finds one, it renders that <Route> and ignores all others.
+After we have imported all the components that React Router provides us let's start building our Routes. For creating the routes, we need to wrap our application with the `<Router/>` component. Inside the `<Router/>` component we can create our layout. In this example we have simple layout that's made with a `<NavBar/>` and `<Footer/>` components. Every component that's outside the `<Switch/>` component will remain untouched.  When a `<Switch>` is rendered, it searches through its children `<Route>` elements to find one whose path matches the current URL. When it finds one, it renders that `<Route>` and ignores all others.
 
 ````javascript
     import {BrowserRouter as Router, Switch,Route,} from "react-router-dom";
@@ -68,7 +68,7 @@ Let's assume we just opened our app and the browser shows "https://yourAppDomain
 
 ## Navigate between routes
 
-React Router provides a <Link> component to create links in your application. Wherever you render a <Link>, an anchor (<a>) will be rendered in your HTML document. This component behaves like an ordinary <a>, it will redirect you to the route that's defined as a prop. Let's see the example below. We we can pass other parameters to make the url to behave dynamically, we'll see it later on this day.
+React Router provides a <Link> component to create links in your application. Wherever you render a `<Link>`, an anchor (`<a>`) will be rendered in your HTML document. This component behaves like an ordinary <a>, it will redirect you to the route that's defined as a prop. Let's see the example below. We we can pass other parameters to make the url to behave dynamically, we'll see it later on this day.
 
 ````javascript
 import {BrowserRouter as Router, Switch,Route, Link} from "react-router-dom";
@@ -114,7 +114,7 @@ export default App(){
 ````
 ## Error Pages
 
-Sometimes there is a chance that the user types an url that does not correspond to a <Route/> element defined within our <Switch/> or maybe some error happened and the route does not exist. As a developers, we must handle this situation. The most common solution to this problem is to create a <NotFound> page and implement the component as it shows below
+Sometimes there is a chance that the user types an url that does not correspond to a `<Route>` element defined within our `<Switch/>` or maybe some error happened and the route does not exist. As a developers, we must handle this situation. The most common solution to this problem is to create a `<NotFound>` page and implement the component as it shows below
 
 ````javascript
 import {BrowserRouter as Router, Switch,Route, Link} from "react-router-dom";
@@ -151,6 +151,6 @@ export default App(){
     }
 
 ````
-By adding an `*` to the prop `path` we tell the <Route> component that every URL that the browser shows it's a match, but we don't want to show this error page every time, that's why we add it below the other <Route> elements. If we don't have any route match, it will show us the <NotFound> page. 
+By adding an `*` to the prop `path` we tell the `<Route>` component that every URL that the browser shows it's a match, but we don't want to show this error page every time, that's why we add it below the other `<Route>` elements. If we don't have any route match, it will show us the `<NotFound>` page. 
 
 ## Dynamic Routing
