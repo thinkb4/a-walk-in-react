@@ -28,5 +28,73 @@
     - Key prop
 
 ## DAY 03 
+  - Class Based Components (legacy)
+    - Class based vs Functional components
+  - Hooks
+    - State
+    - useState Hook
+    - How to update State
+    - Controlled or uncontrolled components
+  - Effects
+    - useEffect Hook
+    - What are side effects
+    - When to use it
+    - Dependencies
+    - The useEffect Cleanup function
 
+## DAY 4
+
+  - Styling React components
+    - Inline style
+    - CSS stylesheet
+    - CSS modules
+    - Dynamic styles
+  - useRef Hook
+  - Forms in React
+
+## DAY 5
+
+  - React Context API
+      - createContext
+      - useContext Hook
+      - Context provider       
+## DAY 6
+
+  - useReducer
+  - Performance Hooks
+      - useCallback
+      - useMemo
+
+## DAY 7
+
+  - Events
+      - Listening to event handlers
+  - Custom React Hooks
+      - What are they
+      - How to create them
+      - How to use them
+  - Debugging React apps
+      - Error messages
+      - React Devtools
+
+## DAY 8
+
+  - React Router
+      - Install and set update
+      - Defining routes
+      - Navigaste between links
+      - Error pages
+      - Dynamic routes
+
+## DAY 9
+
+  - Testing React apps (Unit tests)
+      - Different kinds of tests
+      - Tools
+      - Writing our first test
+      - Working with mocks
+  - Deploying React apps
+      - Steps
+      - Lazy loading
+      - Server side routing
 
