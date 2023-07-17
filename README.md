@@ -50,20 +50,21 @@
     - CSS modules
     - Dynamic styles
   - useRef Hook
-  - Forms in React
 
 ## DAY 5
 
   - React Context API
       - createContext
       - useContext Hook
-      - Context provider       
+      - Context provider
+  - Global state management   
 ## DAY 6
 
   - useReducer
   - Performance Hooks
       - useCallback
       - useMemo
+  - Forms in React
 
 ## DAY 7
 
