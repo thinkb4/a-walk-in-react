@@ -154,3 +154,144 @@ export default App(){
 By adding an `*` to the prop `path` we tell the `<Route>` component that every URL that the browser shows it's a match, but we don't want to show this error page every time, that's why we add it below the other `<Route>` elements. If we don't have any route match, it will show us the `<NotFound>` page. 
 
 ## Dynamic Routing
+
+Let's assume that we have a typical e-commerce with over 1000 products, we're gonna have to create a link for each product? Nope, that's where Dynamic Routing comes to save our time by making this task really easy. 
+
+First of All, we're gonna need to define our routes to handle dynamic routing. Let's get back to the e-commerce example and mix it with the example that's on top.
+
+````javascript
+import {BrowserRouter as Router, Switch,Route, Link} from "react-router-dom";
+import {About, Users, Home, Product} from 'pages'
+
+function NotFound(){
+    return(
+        <div>
+            <h1>Ooops! We couldn't find the page that you are looking for</h1>
+        </div>
+    )
+}
+export default App(){
+        return(
+           <Router> 
+                <NavBar/>
+                    <Switch>
+                        <Route path="/about">
+                            <About />
+                        </Route>
+                        <Route path="/users">
+                            <Users />
+                        </Route>
+                        <Route path="/">
+                            <Home />
+                        </Route>
+                         <Route path="/products/:id">
+                            <Product />
+                         </Route>
+                          <Route path="*">
+                            <NotFound />
+                         </Route>
+                    </Switch>
+                <Footer/>
+            <Router/>
+        )
+    }
+
+````
+Below the path `/` we added another route called `/products/:id` here, by defining an `:id` we're telling React Router that this route is dynamic, and the attribute that comes after the `/products/` can be picked up from another function that react router provides us (we'll jump on that later on). 
+
+````javascript
+import { Link, useParams } from "react-router-dom";
+
+
+export default ProductCard({ title, id, price }){
+        return(
+           <div>
+                <h1>{title}</h1>
+                <h3>${price}</h3>
+                </Link to=`/products/${id}` >
+           </div>
+        )
+    }
+
+````
+
+On a typical e-commerce we'll have a card that shows the main product specifications (the product name and his respective price in this case) and it will redirect us to a bigger product page with other specifications and a bigger description. This card takes as props the `title`, `path` and `price` of the product. What we need to do here is to redirect the user to the specific product page that will show him more info about it. 
+
+````javascript
+import { useParams } from "react-router-dom";
+
+export default ProductPage(){
+    const {id} = useParams()
+
+    const [product, setProduct] = useState()
+
+    useEffect(() => {
+        fetch(`/products/${id}`)
+        .then(product => setProduct(product))
+    }, [])
+
+        return(
+           <div>
+                <h1>{product.title}</h1>
+                <h3>${product.description}</h3>
+                <img>${product.price}</h3>
+                <button>Add to cart</button>
+           </div>
+        )
+    }
+
+````
+The `useParams` hook returns an object of key/value pairs of the dynamic params from the current URL that were matched by the `<Route path>` thanks to the `useParams` hook that React Router provides us, we can catch the parameter `id` that comes within the product URL, and with this id we can make a simple API call to get data to our component with a little bit of help from the `useState` and `useEffect` hooks also.
+
+
+## Protected Routes
+
+Sometimes our application will have certain pages that are not allowed for everyone to access. This is where we need to implement `ProtectedRoutes` and `PublicRoutes` to our project. For implement them we need to go back to where we defined our routes. In this example it will be App.jsx
+
+`````javascript
+
+    export default App(){
+
+        const routes = [{
+            path: "/about"
+            element: <About/>,
+            private: false
+        },{
+            path: "/users"
+            element: <Users/>,
+            private: true
+        },{
+            path: "/products/:id"
+            element: <Product/>,
+            private: false
+        },{
+            path: "/"
+            element: <Home/>,
+            private: false
+        },{
+            path: "*"
+            element: <NotFound/>,
+            private: false
+        }]
+        return(
+           <Router> 
+                <NavBar/>
+                    <Switch>
+                       {
+                        routes.map(route =>{
+                            return(
+                                <Route path={route.path}>
+                                    {route.private ? <PrivateRoute element={route.element}/> : <PublicRoute element={route.element}/>}
+                                </Route>
+                            )
+                        })
+                       }
+                    </Switch>
+                </Footer>
+            </Router>
+        )
+    }
+
+````
+
+`````
