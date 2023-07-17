@@ -78,7 +78,7 @@ function Editor() {
 ### 2. Build the Application
 
 The code we have written is not the one that will be deployed. Our code is optimized for human readability and sometimes uses features not supported by browsers (like JSX code).  
-Instead, we must execute a script *npm run build* that will create a bundle which is a highly optimized and compressed version of our code and store it in a **build** folder that will be created at the root of our project. And it's the contents of that folder that will be deployed to the server. 
+Instead, we must execute a script *npm run build* that will create a bundle with a highly optimized and compressed version of our code, and store it in a **build** folder that will be created at the root of our project. And it's the contents of that folder that will be deployed to the server. 
 
 ### 3. Deploy to server
 
