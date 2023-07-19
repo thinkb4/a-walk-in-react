@@ -95,7 +95,7 @@ By using useReducer, we can manage more complex state updates that involve multi
 > **useReducer** is a Hook, so you can only call it at the top level of your component or on your own Hooks. You can't call it inside loops or conditions. If you need to, check out a new component and move state to it.
 >
 > In Strict Mode, React will call your reducer and initializer twice to help you find accidental impurities. This is development-only behavior and does not affect production. If your reducer and initializer are pure (as they should be), this shouldn't affect your logic. The result of one of the calls is ignored.
->  
+>
 > Source: https://es.react.dev/reference/react/useReducer
 
 **Attention!**
@@ -204,11 +204,11 @@ By utilizing the useMemo hook, you can optimize the performance of your React co
 > ### Warnings:
 >
 > - **useMemo** is a Hook, so it can only be called at the top level of the component or its own Hooks. You can't call it inside loops or conditions. If you need to, check out a new component and move state to it.
-> 
+>
 > - In strict mode, React will call your calculation function twice to help you find accidental impurities. This behavior occurs only in development and does not affect production. If your compute function is pure (as it should be), this shouldn't affect the logic of your component. The result of one of the calls will be ignored.
 >
 > - React will not discard the cached value unless there is a specific reason to do so. For example, in development, React will flush the cache when you edit your component file. In both development and production, React will flush the cache if your component is suspended during initial assembly.
-> 
+>
 > Source: https://es.react.dev/reference/react/useMemo
 
 On initial rendering, **useMemo** returns the result of calling with **calculateValue** no arguments.
@@ -216,3 +216,86 @@ On initial rendering, **useMemo** returns the result of calling with **calculate
 During subsequent renders, it will either return a value already stored from the last render (if the dependencies haven't changed), or it will call **calculateValue** again and return whatever result it **calculateValue** returned.
 
 ### useCallback
+
+**useCallback** hook is used to memoize a function so that it doesn't get recreated on every render, especially when it's passed as a prop to child components. Similar to the [useMemo](#usememo) hook, **useCallback** allows you to optimize performance by memoizing a function, ensuring its reference remains stable unless its dependencies change.
+
+The useCallback hook takes two parameters: a **function** and an **array of dependencies**. The function represents the callback function that you want to memoize, and the dependencies are the values that the function depends on.
+
+Let's see an example from [React official documentation](https://react.dev/reference/react/useCallback):
+
+```javascript
+import { memo } from "react";
+
+const ShippingForm = memo(() => ShippingForm({ onSubmit }) {
+  // ...
+});
+
+function ProductPage({ productId, referrer, theme }) {
+  // Every time the theme changes, this will be a different function...
+  function handleSubmit(orderDetails) {
+    post("/product/" + productId + "/buy", {
+      referrer,
+      orderDetails,
+    });
+  }
+
+  return (
+    <div className={theme}>
+      {/* ... so ShippingForm's props will never be the same, and it will re-render every time */}
+      <ShippingForm onSubmit={handleSubmit} />
+    </div>
+  );
+}
+```
+
+>In JavaScript, a function `() {} or () => {}` always creates a different function, similar to how the `{}` object literal always creates a new object. Normally, this wouldn’t be a problem, but it means that your component props will never be the same, and your memo optimization won’t work. This is where useCallback comes in handy:
+
+```javascript
+function ProductPage({ productId, referrer, theme }) {
+  // Tell React to cache your function between re-renders...
+  const handleSubmit = useCallback(
+    (orderDetails) => {
+      post("/product/" + productId + "/buy", {
+        referrer,
+        orderDetails,
+      });
+    },
+    [productId, referrer]
+  ); // ...so as long as these dependencies don't change...
+
+  return (
+    <div className={theme}>
+      {/* ...ShippingForm will receive the same props and can skip re-rendering */}
+      <ShippingForm onSubmit={handleSubmit} />
+    </div>
+  );
+}
+```
+
+> By wrapping handleSubmit in useCallback, you ensure that it’s the same function between the re-renders (until dependencies change). You don’t have to wrap a function in useCallback unless you do it for some specific reason. In this example, the reason is that you pass it to a component wrapped in memo, and this lets it skip re-rendering. There are other reasons you might need useCallback which are described further on this page.
+
+This memoization prevents unnecessary re-creation of the callback function on every render, which can be particularly beneficial when passing the function as a prop to child components. If the dependencies in the array change, the function will be re-created with the updated references.
+
+By using **useCallback**, you can optimize the performance of your components by ensuring that functions are only recreated when necessary, preserving referential equality and preventing unnecessary re-renders of child components.
+
+**It's important to note that useCallback should be used when you need to optimize the performance of your components and ensure that the function reference remains stable. If the function doesn't have any dependencies or its reference doesn't affect rendering behavior, using useCallback may not be necessary.**
+
+Also, keep in mind that **useCallback** returns a memoized version of the function, not the function itself. If you need to memoize a value other than a function, you can use the [useMemo](#usememo) hook.
+
+By utilizing the **useCallback** hook effectively, you can optimize the performance of your React components by memoizing callback functions, ensuring their stability and minimizing unnecessary re-renders.
+
+> ### useCallback parameters
+>
+> - fn: The function value that you want to cache. It can take any arguments and return any values. React will return (not call!) your function back to you during the initial render. On next renders, React will give you the same function again if the dependencies have not changed since the last render. Otherwise, it will give you the function that you have passed during the current render, and store it in case it can be reused later. React will not call your function. The function is returned to you so you can decide when and whether to call it.
+>
+> - dependencies: The list of all reactive values referenced inside of the **fn** code. Reactive values include props, state, and all the variables and functions declared directly inside your component body.
+>
+> You should only rely on **useCallback** as a performance optimization.
+>
+> ### Warnings:
+>
+> - **useCallback** is a Hook, so it can only be called at the top level of the component or its own Hooks. You can't call it inside loops or conditions. If you need to, check out a new component and move state to it.
+>
+> - React will not throw away the cached function unless there is a specific reason to do that. For example, in development, React throws away the cache when you edit the file of your component. Both in development and in production, React will throw away the cache if your component suspends during the initial mount.
+>
+> Source: https://react.dev/reference/react/useCallback
