@@ -10,7 +10,7 @@
     - [What exactly does it mean to be declarative?](#what-exactly-does-it-mean-to-be-declarative)
   - [Setup](#setup)
     - [Requirements](#requirements)
-    - [Extensions VSCode](#Extensions-VSCode)
+    - [Extensions VSCode](#extensions-vscode)
     - [Vite](#vite)
     - [Create-react-app](#create-react-app)
   - [Create-react-app(CRA) vs Vite](#create-react-appcra-vs-vite)
@@ -59,18 +59,8 @@ element.innerHTML = 'Hello, world'
 
 ### Extensions VSCode
 - [es7 react js snippets](https://marketplace.visualstudio.com/items?itemName=dsznajder.es7-react-js-snippets)
-- [material icon theme](https://marketplace.visualstudio.com/items?itemName=PKief.material-icon-theme)
-- [nu-disco theme](https://marketplace.visualstudio.com/items?itemName=dbanksdesign.nu-disco)
-
-
-### Vite
-- [Vite official website](https://vitejs.dev) : Vite is defined as a frontend tool that will help you create projects (without tying you to any specific framework) and make their development and final construction as easy as possible.
-- Currently, Vite supports both vanilla projects (without using frameworks), and projects using Vue, React, Preact or Lit-element (both in Javascript and Typescript versions).
-
-```
-npm create vite@latest
-```
-
+- [prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+- [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
 ### Create-react-app
 - [create-react-app](https://create-react-app.dev): Fortunately, Facebook has created the Create React App, an environment that comes preconfigured with everything you need to create a React app.
 - You will create a live development server.
@@ -82,6 +72,47 @@ npx create-react-app my-app
 cd my-app
 npm start
 ```
+
+> *Note:* It is no longer recommended to use "create-react-app", since its latest version is from April 2022. 
+> React developer team recently removed create-react-app from the official documentation. This means it is no longer the default method of setting up a new project in React. According to [this](https://github.com/reactjs/react.dev/pull/5487) pull request on Github, create-react-app is finally gone.
+>
+> 
+
+**What are the alternatives**
+
+There are several ways to set up a new React project. In fact, the official documentation now mentions frameworks like NEXT-JS, Remix, etc. for starters. However, we'll take a look at using Vite to set up our React app in less than a minute.
+
+**Why vite?**
+
+Vite is one of the fastest ways to start a project in react. It has faster server start time. It has better compatibility with plugins. It supports TypeScript, has better dependency resolving features out of the box. React projects created from Vite are just 20% the size of that created by CRA.
+### Vite
+ [Vite official website](https://vitejs.dev) : is a build tool that aims to provide a faster and more agile development experience for modern web projects. It consists of two main parts:
+
+- A development server that provides rich functionality enhancements over native ES modules, for example extremely fast Hot Module Replacement (HMR).
+
+- A build command that packages your code with Rollup, preconfigured to generate highly optimized static resources for production.
+  
+**Creating a new React project using Vite**
+
+Let's create a new React project using Vite. Run the following in the folder where you want your new app.
+
+- Con NPM:
+
+
+```
+npm create vite@latest
+```
+
+- Con Yarn: 
+
+```
+yarn create vite
+```
+- Con PNPM:
+```
+pnpm create vite
+```
+
 
 ## Create-react-app(CRA) vs Vite
 
