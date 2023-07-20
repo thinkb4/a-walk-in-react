@@ -89,12 +89,16 @@
 
 ## DAY 9
 
-  - Testing React apps (Unit tests)
+
+  - Testing React apps
       - Different kinds of tests
       - Tools
       - Writing our first test
+      - Testing Asynchronous Code
       - Working with mocks
   - Deploying React apps
       - Steps
-      - Lazy loading
-      - Server side routing
+            1. Test and optimize your code.
+              - Lazy loading
+            2. Build the Application
+            3. Deploy to server
