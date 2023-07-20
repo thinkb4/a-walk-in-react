@@ -98,7 +98,7 @@
       - Working with mocks
   - Deploying React apps
       - Steps
-          1. Test and optimize your code.
+            1. Test and optimize your code.
               - Lazy loading
-          2. Build the Application
-          3. Deploy to server
+            2. Build the Application
+            3. Deploy to server
