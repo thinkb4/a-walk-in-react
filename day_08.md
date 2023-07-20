@@ -21,7 +21,7 @@ Installing React Router in our project is as simple as to run `npm install react
 
 ## Defining Routes
 
-In most common cases, in our `App.js` file is where the magic occurs. In this file is where we're gonna define our app routes. 
+In most common cases, in our `App.jsx` file is where the magic occurs. In this file is where we're gonna define our app routes. 
 
 React Router provides us a few components to use, we're gonna focus on `<Switch/>`, `<Route/>` and `<Router/>` components. Which are the most commonly used on basic routing building. Later on we're gonna focus on private routing (which are routes that only authenticated users can access)
 
@@ -64,11 +64,11 @@ After we have imported all the components that React Router provides us let's st
     }
 
 ````
-Let's assume we just opened our app and the browser shows "https://yourAppDomain.com/" the route that matches with the current url is the third one, consecuentelly, `<Home/>` component will be rendered.  
+Let's assume we just opened our app and the browser shows "https://www.yourAppDomain.com/" the route that matches with the current url is the third one, consecuentelly, `<Home/>` component will be rendered.  
 
 ## Navigate between routes
 
-React Router provides a <Link> component to create links in your application. Wherever you render a `<Link>`, an anchor (`<a>`) will be rendered in your HTML document. This component behaves like an ordinary <a>, it will redirect you to the route that's defined as a prop. Let's see the example below. We we can pass other parameters to make the url to behave dynamically, we'll see it later on this day.
+React Router provides a <Link> component to create links in your application. Wherever you render a `<Link>`, an anchor (`<a>`) will be rendered in your HTML document. This component behaves like an ordinary <a>, it will redirect you to the route that's passed as a prop `to`. Let's see the example below. We we can pass other parameters to make the url to behave dynamically, we'll see it later on this day.
 
 ````javascript
 import {BrowserRouter as Router, Switch,Route, Link} from "react-router-dom";
@@ -114,7 +114,7 @@ export default App(){
 ````
 ## Error Pages
 
-Sometimes there is a chance that the user types an url that does not correspond to a `<Route>` element defined within our `<Switch/>` or maybe some error happened and the route does not exist. As a developers, we must handle this situation. The most common solution to this problem is to create a `<NotFound>` page and implement the component as it shows below
+Sometimes there is a chance that the user types an url that does not correspond to a `<Route>` element defined within our `<Switch/>` or maybe some error happened and the route does not exist. As a developers, we must handle this situation. The most common solution to this problem is to create a `<NotFound>` page and implement the component as it shows below.
 
 ````javascript
 import {BrowserRouter as Router, Switch,Route, Link} from "react-router-dom";
@@ -281,7 +281,7 @@ Sometimes our application will have certain pages that are not allowed for every
                         routes.map(route =>{
                             return(
                                 <Route path={route.path}>
-                                    {route.private ? <PrivateRoute element={route.element}/> : <PublicRoute element={route.element}/>}
+                                    {route.private ? <PrivateRoute element={route.element}/> : route.element}
                                 </Route>
                             )
                         })
@@ -291,7 +291,19 @@ Sometimes our application will have certain pages that are not allowed for every
             </Router>
         )
     }
-
-````
-
 `````
+In the example above, we're mapping the routes object and doing some conditional rendering for checking if the route is private or not, all the logic involved will be described in the `PrivateRoute` component. 
+
+`````javascript
+    import { useContext } from 'react';
+    import { Navigate } from 'react-router-dom';
+    import { AuthContext } from '../context/AuthContext';
+
+    export default function ProtectedRoute({ element }){
+    const { isAuthenticated } = useContext(AuthContext);
+    const isAuth = isAuthenticated();
+
+    return isAuth ? element : <Navigate to="/login" />;
+    }
+`````
+Here is a example of the logic involved in a protected route component, we're consuming a function that is telling us if the user is authenticated or not, which in this case comes from an Authentication Context. If the user is authenticated, we'll show the element that we passed as props on `App.jsx` if the user is not authenticated, we will redirect it to the login page in order to make the user login or register.
