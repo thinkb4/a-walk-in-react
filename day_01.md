@@ -10,9 +10,9 @@
     - [What exactly does it mean to be declarative?](#what-exactly-does-it-mean-to-be-declarative)
   - [Setup](#setup)
     - [Requirements](#requirements)
-    - [Extensions VSCode](#extensions-vscode)
-    - [Vite](#vite)
+    - [Recommended extensions for VSCode](#recommended-extensions-for-vscode)
     - [Create-react-app](#create-react-app)
+    - [Vite](#vite)
   - [Create-react-app(CRA) vs Vite](#create-react-appcra-vs-vite)
 
 ## Introduction of React
@@ -57,7 +57,7 @@ element.innerHTML = 'Hello, world'
 - **Node.JS**: Is an open source, cross-platform runtime environment for the server layer (but not limited to) based on the JavaScript programming language.
 - **NPM**(Node Package Manager): Is a package manager developed entirely under the JavaScript language by Isaac Schlueter, through which we can obtain any library with just a simple line of code, which will allow us to add dependencies in a simple way, distribute packages and efficiently manage both the modules and the project to be developed in general.
 
-### Extensions VSCode
+### Recommended extensions for VSCode
 - [es7 react js snippets](https://marketplace.visualstudio.com/items?itemName=dsznajder.es7-react-js-snippets)
 - [prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
@@ -78,7 +78,7 @@ npm start
 >
 > 
 
-**What are the alternatives**
+**What are the alternatives?**
 
 There are several ways to set up a new React project. In fact, the official documentation now mentions frameworks like NEXT-JS, Remix, etc. for starters. However, we'll take a look at using Vite to set up our React app in less than a minute.
 
@@ -96,19 +96,19 @@ Vite is one of the fastest ways to start a project in react. It has faster serve
 
 Let's create a new React project using Vite. Run the following in the folder where you want your new app.
 
-- Con NPM:
+- With NPM:
 
 
 ```
 npm create vite@latest
 ```
 
-- Con Yarn: 
+- With Yarn: 
 
 ```
 yarn create vite
 ```
-- Con PNPM:
+- With PNPM:
 ```
 pnpm create vite
 ```
