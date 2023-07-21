@@ -299,7 +299,7 @@ In the example above, we're mapping the routes object and doing some conditional
     import { Navigate } from 'react-router-dom';
     import { AuthContext } from '../context/AuthContext';
 
-    export default function ProtectedRoute({ element }){
+    export default function PrivateRoute({ element }){
     const { isAuthenticated } = useContext(AuthContext);
     const isAuth = isAuthenticated();
 
