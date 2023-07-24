@@ -301,3 +301,77 @@ By utilizing the **useCallback** hook effectively, you can optimize the performa
 > Source: https://react.dev/reference/react/useCallback
 
 ## Forms in React
+
+Working with **forms** in ReactJS is a little different than Vanilla Javascript. React encourages a "single source of truth" approach to state management. Form data is typically stored in the component's state, and any changes to the form inputs are reflected in the state immediately using the `onChange` event. React's unidirectional data flow ensures that the state remains consistent and helps manage form data efficiently. In vanilla JavaScript, you have the flexibility to manage form data and state in various ways. You could use global variables, local variables, or other custom data structures to handle form data changes. However, this approach might require extra effort to manage state consistently, especially in large applications.
+
+React uses the **virtual DOM**, which is an in-memory representation of the actual DOM. When form inputs change, React efficiently updates only the necessary parts of the virtual DOM, and then, through a process called reconciliation, it updates the real DOM with the minimum required changes. But, with vanilla JavaScript, you need to manually manipulate the DOM to update form values and handle form events. This involves directly accessing DOM elements, reading input values, and updating the UI accordingly. This approach may lead to more verbose and error-prone code, especially for complex forms.
+
+> Overall, ReactJS simplifies form handling by providing a declarative approach to UI development, efficient DOM updates, and state management out of the box. In contrast, working with
+> forms in vanilla JavaScript requires more low-level DOM manipulation and state management.
+
+Let's see an example of how to handle a Form with React:
+
+```javascript
+function MyForm() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+  });
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  }
+
+  return (
+    <form>
+      <input
+        type="text"
+        name="name"
+        value={formData.name}
+        onChange={handleChange}
+        placeholder="Enter your name"
+      />
+      <input
+        type="email"
+        name="email"
+        value={formData.email}
+        onChange={handleChange}
+        placeholder="Enter your email"
+      />
+    </form>
+  );
+}
+```
+
+In this example, we started by defining the initial state of the `Form Component` using **useState** hook. This state will hold the values of the form fields. Then, for each form field, we should attach an `onChange event handler` to update the corresponding state value as the user types in the input field. By using the onChange event handler and updating the state with the new values, the component will automatically re-render with the updated state, reflecting the user's input.
+
+Let's add a form submission:
+
+```javascript
+function MyForm() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+  });
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    sendData(formData); // Or do anything with form data.
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      {/* Form fields */}
+
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+```
+
+To handle **form submission**, we attached an `onSubmit event handler` to the form element. This handler can send the form data to a server or perform any necessary actions based on the form data. It's important to note that the `submit event` will try to submit the Form by default, but in this case, we didn't specify an action property in the [`<form>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form) tag. To prevent the default form submission behavior, we used the [preventDefault](https://developer.mozilla.org/es/docs/Web/API/Event/preventDefault) method. This ensures that the form data is processed as intended within our React application without triggering a full page reload.
