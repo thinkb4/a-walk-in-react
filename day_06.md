@@ -248,7 +248,7 @@ function ProductPage({ productId, referrer, theme }) {
 }
 ```
 
->In JavaScript, a function `() {} or () => {}` always creates a different function, similar to how the `{}` object literal always creates a new object. Normally, this wouldn’t be a problem, but it means that your component props will never be the same, and your memo optimization won’t work. This is where useCallback comes in handy:
+> In JavaScript, a function `() {} or () => {}` always creates a different function, similar to how the `{}` object literal always creates a new object. Normally, this wouldn’t be a problem, but it means that your component props will never be the same, and your memo optimization won’t work. This is where useCallback comes in handy:
 
 ```javascript
 function ProductPage({ productId, referrer, theme }) {
@@ -299,3 +299,5 @@ By utilizing the **useCallback** hook effectively, you can optimize the performa
 > - React will not throw away the cached function unless there is a specific reason to do that. For example, in development, React throws away the cache when you edit the file of your component. Both in development and in production, React will throw away the cache if your component suspends during the initial mount.
 >
 > Source: https://react.dev/reference/react/useCallback
+
+## Forms in React
