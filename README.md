@@ -62,8 +62,8 @@
 
   - useReducer
   - Performance Hooks
-      - useCallback
       - useMemo
+      - useCallback
   - Forms in React
 
 ## DAY 7

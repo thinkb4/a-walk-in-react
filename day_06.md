@@ -1,0 +1,377 @@
+# [A walk in React](/README.md)
+
+## DAY 6
+
+- [DAY 6](#day-6)
+
+  - [useReducer](#usereducer)
+  - [Performance Hooks](#performance-hooks)
+    - [useMemo](#usememo)
+    - [useCallback](#usecallback)
+  - [Forms in React](#forms-in-react)
+
+## useReducer
+
+**useReducer** hook is a powerful tool that allows you to manage complex state logic in your components. It is an alternative to the more commonly used **useState hook**, and it provides a way to update state based on previous state and an action.
+
+The useReducer hook follows the concept of the reducer pattern, which is widely used in functional programming. It takes in two parameters: a **reducer function** and an **initial state**. The reducer function specifies how the state should be updated based on the action dispatched.
+
+Here's an example to illustrate how useReducer works:
+
+```javascript
+import React, { useReducer } from "react";
+
+// Reducer function
+function reducer(state, action) {
+  switch (action.type) {
+    case "INCREMENT":
+      return {
+        ...state,
+        count: state.count + 1,
+      };
+    case "DECREMENT":
+      return {
+        ...state,
+        count: state.count - 1,
+      };
+    default:
+      throw new Error("Invalid action");
+  }
+}
+
+// Component using useReducer
+export default function Counter() {
+  const [state, dispatch] = useReducer(reducer, {
+    name: "John",
+    count: 0,
+  });
+
+  const increment = () => {
+    dispatch({ type: "INCREMENT" });
+  };
+
+  const decrement = () => {
+    dispatch({ type: "DECREMENT" });
+  };
+
+  return (
+    <div>
+      <h3>`Hello, ${state.name}!`</h3>
+
+      <p>Count: {state.count}</p>
+
+      <button onClick={increment}>Increment</button>
+      <button onClick={decrement}>Decrement</button>
+    </div>
+  );
+}
+```
+
+In this example, we define a reducer function that takes in the **current state** and an **action**. The reducer function uses a **switch** statement to determine how the state should be updated based on the action type. In this case, we handle two actions: 'INCREMENT' and 'DECREMENT'. The reducer returns a new state object that reflects the updated count.
+
+In the Counter component, we initialize the state using useReducer. The initial state is an object with a single property called **count** set to **0**. The useReducer hook returns an array with two elements: the current state and a dispatch function. The dispatch function is used to dispatch actions to the reducer.
+
+The **dispatch** function invokes the reducer function, passing the current state and the action. The reducer function uses a switch statement to determine how the state should be updated based on the action type. In this case, it increments or decrements the count property in the state object. By calling dispatch with different action types and payloads, you can trigger different state updates in your component. It's important to note that the dispatch function is synchronous and does not immediately update the state. Instead, React re-renders the component with the new state after the dispatch operation is complete. Using the dispatch function with useReducer provides a predictable way to update state in your React components, especially when dealing with more complex state transitions and actions.
+
+We define two event handlers, increment and decrement, which dispatch the corresponding actions to the reducer when the buttons are clicked.
+
+Finally, we render the current count value from the state and attach the event handlers to the buttons.
+
+By using useReducer, we can manage more complex state updates that involve multiple values or complex state transitions. It provides a structured way to handle state changes and can make your code more maintainable and easier to reason about.
+
+> ### useReducer Params
+>
+> - reducer: The reducing function that should return the initial state. It must be pure, it must take the state and the action as arguments, and it must return the following state. The state and action can be of any type.
+> - initialArg: The value from which the initial state is calculated. It can be a value of any type. How the initial state is calculated depends on the following argument init.
+> - optional init : The initializer function that specifies how the initial state is calculated. If not specified, the initial state is set to initialArg. Otherwise, the initial state is the result of calling init(initialArg).
+>
+> **useReducer returns an array with exactly two values:**
+>
+> - The current **state**. During the first render, it is set to init(initialArg)o initialArg(if there is no init).
+> - The function **dispatch** that allows you to update the state to a different value and trigger a new render.
+>
+> ### Warnings
+>
+> **useReducer** is a Hook, so you can only call it at the top level of your component or on your own Hooks. You can't call it inside loops or conditions. If you need to, check out a new component and move state to it.
+>
+> In Strict Mode, React will call your reducer and initializer twice to help you find accidental impurities. This is development-only behavior and does not affect production. If your reducer and initializer are pure (as they should be), this shouldn't affect your logic. The result of one of the calls is ignored.
+>
+> Source: https://es.react.dev/reference/react/useReducer
+
+**Attention!**
+
+The status is read-only. Do not modify any objects or arrays of the state:
+
+```javascript
+function reducer(state, action) {
+  switch (action.type) {
+    case "incremented_age": {
+      // 🚩 Don't mutate an object in state like this:
+      state.age = state.age + 1;
+      return state;
+    }
+  }
+}
+```
+
+Instead, always return new objects from your reducer:
+
+```javascript
+function reducer(state, action) {
+  switch (action.type) {
+    case "incremented_age": {
+      // ✅ Instead, return a new object
+      return {
+        ...state,
+        age: state.age + 1,
+      };
+    }
+  }
+}
+```
+
+Remember to always consider the asynchronous lifecycle of state updates in React to avoid incorrect assumptions about the updated state
+
+```javascript
+function handleClick() {
+  console.log(state.age); // 42
+
+  dispatch({ type: "incremented_age" }); // Request a re-render with 43
+  console.log(state.age); // Still 42!
+
+  setTimeout(() => {
+    console.log(state.age); // Also 42!
+  }, 5000);
+}
+
+// This is because state behaves like a snapshot The state update requests another render with the new state value, but does not affect the JavaScript variable in its statehandler of events already running.
+```
+
+Furthermore, useReducer provides an alternative to the useState hook and can be particularly valuable when you need to manage more advanced state management scenarios, such as maintaining a history of state changes or handling asynchronous updates. By understanding and effectively utilizing the useReducer hook, you can enhance your React applications with a more structured and scalable approach to managing state complexity.
+
+In summary, the useReducer hook empowers you to handle intricate state management scenarios in React, promoting better code organization, maintainability, and scalability.
+
+## Performance Hooks
+
+A common way to optimize rendering performance is to avoid unnecessary work. For example, you can tell React to reuse a cached calculation or skip a rerender if the data hasn't changed since the previous render.
+
+### useMemo
+
+**useMemo** hook is used to optimize the performance of a component by memoizing the result of a function call. It allows you to cache the computed value of an expensive function and only recalculate it when its dependencies change.
+
+The useMemo hook takes two parameters: a **function** and an **array of dependencies**. The function represents the expensive computation that you want to memoize, and the dependencies are the values that the function depends on.
+
+Let's see an example:
+
+```javascript
+import React, { useMemo } from "react";
+
+function MyComponent({ list }) {
+  const expensiveResult = useMemo(() => {
+    // Expensive computation here
+    console.log("Calculating expensive result...");
+    return list.map((item) => item * 2);
+  }, [list]);
+
+  return (
+    <div>
+      <p>Expensive Result: {expensiveResult.join(", ")}</p>
+    </div>
+  );
+}
+```
+
+In this example, we have a component **'MyComponent'** that receives a **'list'** prop. We want to perform an expensive computation, such as mapping each item of the list and multiplying it by 2. However, we don't want this computation to occur on every render, especially if the **'list'** prop hasn't changed.
+
+By wrapping the computation with **useMemo**, we memoize the result and ensure that it is only recalculated when the **'list'** prop changes. The dependencies array **'[list]'** tells React to recompute the result whenever the value of list changes.
+
+The first time **'MyComponent'** renders, the expensive computation will run and the result will be stored. On subsequent renders, if the **'list'** prop remains the same, the cached result will be returned without re-computing the expensive function. This optimization can significantly improve the performance of your component.
+
+It's important to note that the **useMemo** hook should be used when the computation is truly expensive and the result is needed in the rendering of the component. If the computation is simple or the result isn't used for rendering, using useMemo may introduce unnecessary complexity.
+
+Additionally, keep in mind that useMemo returns the **cached value, not a function**. If you need to memoize a function itself, you can use the [useCallback](#usecallback) hook instead, which is similar to useMemo but specifically designed for memoizing functions.
+
+By utilizing the useMemo hook, you can optimize the performance of your React components by selectively memoizing expensive computations, ensuring they are only recalculated when their dependencies change.
+
+> ### useMemo parameters
+>
+> - calculateValue: The function that calculates the value you want to memoize. It must be pure, it must not accept arguments, and it must return a value of any type. React will call your function during initial rendering. On subsequent renders, React will return the same value again if the values dependencias​​haven't changed since the last render. Otherwise, it will call **calculateValue**, return its result, and store it in case it can be reused later.
+>
+> - dependencies: The list of all reactive values ​​referenced within the code **calculateValue**. Reactive values ​​include props, state, and all variables and functions declared directly within the body of your component.
+>
+> Caching values ​​like this is also known as [memoization](https://es.wikipedia.org/wiki/Memoizaci%C3%B3n) , which is why the Hook is called **useMemo**.
+>
+> ### Warnings:
+>
+> - **useMemo** is a Hook, so it can only be called at the top level of the component or its own Hooks. You can't call it inside loops or conditions. If you need to, check out a new component and move state to it.
+>
+> - In strict mode, React will call your calculation function twice to help you find accidental impurities. This behavior occurs only in development and does not affect production. If your compute function is pure (as it should be), this shouldn't affect the logic of your component. The result of one of the calls will be ignored.
+>
+> - React will not discard the cached value unless there is a specific reason to do so. For example, in development, React will flush the cache when you edit your component file. In both development and production, React will flush the cache if your component is suspended during initial assembly.
+>
+> Source: https://es.react.dev/reference/react/useMemo
+
+On initial rendering, **useMemo** returns the result of calling with **calculateValue** no arguments.
+
+During subsequent renders, it will either return a value already stored from the last render (if the dependencies haven't changed), or it will call **calculateValue** again and return whatever result it **calculateValue** returned.
+
+### useCallback
+
+**useCallback** hook is used to memoize a function so that it doesn't get recreated on every render, especially when it's passed as a prop to child components. Similar to the [useMemo](#usememo) hook, **useCallback** allows you to optimize performance by memoizing a function, ensuring its reference remains stable unless its dependencies change.
+
+The useCallback hook takes two parameters: a **function** and an **array of dependencies**. The function represents the callback function that you want to memoize, and the dependencies are the values that the function depends on.
+
+Let's see an example from [React official documentation](https://react.dev/reference/react/useCallback):
+
+```javascript
+import { memo } from "react";
+
+const ShippingForm = memo(() => ShippingForm({ onSubmit }) {
+  // ...
+});
+
+function ProductPage({ productId, referrer, theme }) {
+  // Every time the theme changes, this will be a different function...
+  function handleSubmit(orderDetails) {
+    post("/product/" + productId + "/buy", {
+      referrer,
+      orderDetails,
+    });
+  }
+
+  return (
+    <div className={theme}>
+      {/* ... so ShippingForm's props will never be the same, and it will re-render every time */}
+      <ShippingForm onSubmit={handleSubmit} />
+    </div>
+  );
+}
+```
+
+> In JavaScript, a function `() {} or () => {}` always creates a different function, similar to how the `{}` object literal always creates a new object. Normally, this wouldn’t be a problem, but it means that your component props will never be the same, and your memo optimization won’t work. This is where useCallback comes in handy:
+
+```javascript
+function ProductPage({ productId, referrer, theme }) {
+  // Tell React to cache your function between re-renders...
+  const handleSubmit = useCallback(
+    (orderDetails) => {
+      post("/product/" + productId + "/buy", {
+        referrer,
+        orderDetails,
+      });
+    },
+    [productId, referrer]
+  ); // ...so as long as these dependencies don't change...
+
+  return (
+    <div className={theme}>
+      {/* ...ShippingForm will receive the same props and can skip re-rendering */}
+      <ShippingForm onSubmit={handleSubmit} />
+    </div>
+  );
+}
+```
+
+> By wrapping handleSubmit in useCallback, you ensure that it’s the same function between the re-renders (until dependencies change). You don’t have to wrap a function in useCallback unless you do it for some specific reason. In this example, the reason is that you pass it to a component wrapped in memo, and this lets it skip re-rendering. There are other reasons you might need useCallback which are described further on this page.
+
+This memoization prevents unnecessary re-creation of the callback function on every render, which can be particularly beneficial when passing the function as a prop to child components. If the dependencies in the array change, the function will be re-created with the updated references.
+
+By using **useCallback**, you can optimize the performance of your components by ensuring that functions are only recreated when necessary, preserving referential equality and preventing unnecessary re-renders of child components.
+
+**It's important to note that useCallback should be used when you need to optimize the performance of your components and ensure that the function reference remains stable. If the function doesn't have any dependencies or its reference doesn't affect rendering behavior, using useCallback may not be necessary.**
+
+Also, keep in mind that **useCallback** returns a memoized version of the function, not the function itself. If you need to memoize a value other than a function, you can use the [useMemo](#usememo) hook.
+
+By utilizing the **useCallback** hook effectively, you can optimize the performance of your React components by memoizing callback functions, ensuring their stability and minimizing unnecessary re-renders.
+
+> ### useCallback parameters
+>
+> - fn: The function value that you want to cache. It can take any arguments and return any values. React will return (not call!) your function back to you during the initial render. On next renders, React will give you the same function again if the dependencies have not changed since the last render. Otherwise, it will give you the function that you have passed during the current render, and store it in case it can be reused later. React will not call your function. The function is returned to you so you can decide when and whether to call it.
+>
+> - dependencies: The list of all reactive values referenced inside of the **fn** code. Reactive values include props, state, and all the variables and functions declared directly inside your component body.
+>
+> You should only rely on **useCallback** as a performance optimization.
+>
+> ### Warnings:
+>
+> - **useCallback** is a Hook, so it can only be called at the top level of the component or its own Hooks. You can't call it inside loops or conditions. If you need to, check out a new component and move state to it.
+>
+> - React will not throw away the cached function unless there is a specific reason to do that. For example, in development, React throws away the cache when you edit the file of your component. Both in development and in production, React will throw away the cache if your component suspends during the initial mount.
+>
+> Source: https://react.dev/reference/react/useCallback
+
+## Forms in React
+
+Working with **forms** in ReactJS is a little different than Vanilla Javascript. React encourages a "single source of truth" approach to state management. Form data is typically stored in the component's state, and any changes to the form inputs are reflected in the state immediately using the `onChange` event. React's unidirectional data flow ensures that the state remains consistent and helps manage form data efficiently. In vanilla JavaScript, you have the flexibility to manage form data and state in various ways. You could use global variables, local variables, or other custom data structures to handle form data changes. However, this approach might require extra effort to manage state consistently, especially in large applications.
+
+React uses the **virtual DOM**, which is an in-memory representation of the actual DOM. When form inputs change, React efficiently updates only the necessary parts of the virtual DOM, and then, through a process called reconciliation, it updates the real DOM with the minimum required changes. But, with vanilla JavaScript, you need to manually manipulate the DOM to update form values and handle form events. This involves directly accessing DOM elements, reading input values, and updating the UI accordingly. This approach may lead to more verbose and error-prone code, especially for complex forms.
+
+> Overall, ReactJS simplifies form handling by providing a declarative approach to UI development, efficient DOM updates, and state management out of the box. In contrast, working with
+> forms in vanilla JavaScript requires more low-level DOM manipulation and state management.
+
+Let's see an example of how to handle a Form with React:
+
+```javascript
+function MyForm() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+  });
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  }
+
+  return (
+    <form>
+      <input
+        type="text"
+        name="name"
+        value={formData.name}
+        onChange={handleChange}
+        placeholder="Enter your name"
+      />
+      <input
+        type="email"
+        name="email"
+        value={formData.email}
+        onChange={handleChange}
+        placeholder="Enter your email"
+      />
+    </form>
+  );
+}
+```
+
+In this example, we started by defining the initial state of the `Form Component` using **useState** hook. This state will hold the values of the form fields. Then, for each form field, we should attach an `onChange event handler` to update the corresponding state value as the user types in the input field. By using the onChange event handler and updating the state with the new values, the component will automatically re-render with the updated state, reflecting the user's input.
+
+Let's add a form submission:
+
+```javascript
+function MyForm() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+  });
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    sendData(formData); // Or do anything with form data.
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      {/* Form fields */}
+
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+```
+
+To handle **form submission**, we attached an `onSubmit event handler` to the form element. This handler can send the form data to a server or perform any necessary actions based on the form data. It's important to note that the `submit event` will try to submit the Form by default, but in this case, we didn't specify an action property in the [`<form>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form) tag. To prevent the default form submission behavior, we used the [preventDefault](https://developer.mozilla.org/es/docs/Web/API/Event/preventDefault) method. This ensures that the form data is processed as intended within our React application without triggering a full page reload.
