@@ -31,10 +31,19 @@
   - Class Based Components (legacy)
     - Class based vs Functional components
   - Hooks
-    - State
+    - What is a Hook
+    - Hook Rule
+ - State
     - useState Hook
-    - How to update State
-    - Controlled or uncontrolled components
+    - What does the useState call do?
+    - What do we pass to useState as an argument?
+    - When to use it?
+    - Import useState
+    - Initialize useState
+    - Read State
+    - Update State
+    - What Can State Hold
+    - Updating Objects and Arrays in State
   - Effects
     - useEffect Hook
     - What are side effects
