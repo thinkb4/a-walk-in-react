@@ -11,7 +11,6 @@
     - [How to create them](#how-to-create-them)
     - [How to use them](#how-to-use-them)
   - [Debugging React apps](#debugging-react-apps)
-    - [Error messages](#error-messages)
     - [React DevTools](#react-devtools)
 
 ## Events

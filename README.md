@@ -79,13 +79,12 @@
 
   - Events
       - Listening to event handlers
-  - Custom React Hooks
+  - React Custom Hooks
       - What are they
       - How to create them
       - How to use them
   - Debugging React apps
-      - Error messages
-      - React Devtools
+      - React DevTools
 
 ## DAY 8
 
