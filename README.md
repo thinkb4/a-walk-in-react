@@ -4,13 +4,16 @@
 
 
 ## DAY 01
-- Introdution of React:
-  - What is React.JS?
-  - Setup:
-  - Extesions VSCode
-  - Node.js & NPM
-  - Vite
-  - Install React with Vite
+  - Introduction of React
+    - What is React.JS?
+    - Main features of React
+    - What does it mean to be declarative?
+  - Setup
+    - Requirements
+    - Create-react-app
+    - Vite
+    - Recommended extensions for VSCode
+  - Create-react-app(CRA) vs Vite
   
  ## DAY 02
   - Components
