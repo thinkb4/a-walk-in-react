@@ -3,9 +3,6 @@
 ## DAY 3
 
 - [DAY 3](#day-3)
-
-  - [Class Based Components (legacy)](#class-based-components)
-    - [Class based vs Functional components](#class-based-vs-functional-components)
   - [Hooks](#hooks)
     - [What is a Hook](#what-is-a-hook)
     - [Hook Rule](#hook-rule)
@@ -28,14 +25,6 @@
     - [The useEffect Cleanup function](#the-useEffect-cleanup)
 
 - [useEffect Hook](#useeffect-hook) - [What are side effects](#what-are-side-effects) - [How to use it](#how-to-use-it) - [Dependencies](#dependencies) - [When to use it](#when-to-use-it) - [The useEffect Cleanup function](#the-useeffect-cleanup-function)
-
-## Class based components
-
-> _Note:_ Before React 16.8, Class components were the only way to track state and lifecycle on a React component. Function components were considered "state-less".
-
-With the addition of Hooks, Function components are now almost equivalent to Class components. The differences are so minor that you will probably never need to use a Class component in React.
-
-Even though Function components are preferred, there are no current plans on removing Class components from React.
 
 ## Hooks
 
