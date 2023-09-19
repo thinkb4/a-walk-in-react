@@ -10,7 +10,7 @@
         - [Working with mocks](#working-with-mocks)
     - [Deploying React apps](#deploying-react-apps)
         - [Steps](#steps)
-            1. [Test and optimize your code.](#1-test-and-optimize-your-code)
+            1. [Test and optimize your code](#1-test-and-optimize-your-code)
                 - [Lazy loading](#lazy-loading)
             2. [Build the Application](#2-build-the-application)
             3. [Deploy to server](#3-deploy-to-server)
@@ -162,7 +162,7 @@ Up until this moment we have been writing code and testing our application local
 
 ### Steps
 
-### 1. Test and optimize your code.
+### 1. Test and optimize your code
 
 Before deploying our application we must thoroughly test it and optimize our code for better performance.
 One of the ways we can do this is by applying *lazy loading* in certain components that may make our application slower. 
