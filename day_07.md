@@ -3,198 +3,307 @@
 ## DAY 7
 
 - [DAY 7](#day-7)
+    - [React Router Library](#react-router-library)
+        - [Installing React Router](#installing-react-router)
+        - [Defining routes](#defining-routes)
+        - [Navigate between routes](#navigating)
+        - [Error pages](#error-pages)
+        - [Dynamic routes](#dynamic-routes)
+        - [Protected routes](#protected-routes)
 
-  - [Events](#events)
-    - [Event handlers](#Event-handlers)
-  - [React Custom Hooks](#react-custom-hooks)
-    - [What are they](#what-are-they)
-    - [How to create them](#how-to-create-them)
-    - [How to use them](#how-to-use-them)
-  - [Debugging React apps](#debugging-react-apps)
-    - [React DevTools](#react-devtools)
+## React Router Library
 
-## Events
+What is react router? Well, since react has no embeded route managment tools, we need to appeal to a third party library to do this, there are a few libraries that do this, but the most used is React Router. This library is a tool that allows you to handle routes in a web app, using commonly dynamic routing. Dynamic routing takes place as the app is rendering on your machine, unlike the old routing architecture where the routing is handled in a configuration outside of a running app. React router implements a component-based approach to routing. It provides different routing components according to the needs of the application and platform.
 
-Events in React are a fundamental concept that allows you to make your web applications interactive by responding to user actions like clicks, keyboard input, and more. React events are similar to standard DOM events in JavaScript but are managed and abstracted by React to provide a consistent and efficient way to handle user interactions within your components. By understanding how to handle events and use event objects, you can create dynamic and user-friendly interfaces.
+## Installing React Router
 
-### Event handlers
+Installing React Router in our project is as simple as to run `npm install react-router-dom` or `yarn add react-router-dom`
 
-To handle events in React, you attach event handlers to your JSX elements. These event handlers are functions that get executed when a specific event occurs, such as a button click or a keyboard key press.
+## Defining Routes
 
-Here's a basic example of how you can add an event handler to a button element in JSX:
+In most common cases, in our `App.jsx` file is where the magic occurs. In this file is where we're gonna define our app routes. 
 
-```javascript
-import React from "react";
+React Router provides us a few components to use, we're gonna focus on `<Switch/>`, `<Route/>` and `<Router/>` components. Which are the most commonly used on basic routing building. Later on we're gonna focus on private routing (which are routes that only authenticated users can access)
 
-export default function MyComponent() {
-  const handleClick = () => {
-    alert("Button clicked!");
-  };
+First of all, we need to import all the required components from `react-router-dom`
+````javascript
+    import {BrowserRouter as Router, Switch,Route,} from "react-router-dom";
 
-  return (
-    <div>
-      <button onClick={handleClick}>Click Me</button>
-    </div>
-  );
+    export default App(){
+        return(
+            <h1>We're learning Routes!</h1>
+        )
+    }
+
+````
+
+After we have imported all the components that React Router provides us let's start building our Routes. For creating the routes, we need to wrap our application with the `<Router/>` component. Inside the `<Router/>` component we can create our layout. In this example we have simple layout that's made with a `<NavBar/>` and `<Footer/>` components. Every component that's outside the `<Switch/>` component will remain untouched.  When a `<Switch>` is rendered, it searches through its children `<Route>` elements to find one whose path matches the current URL. When it finds one, it renders that `<Route>` and ignores all others.
+
+````javascript
+    import {BrowserRouter as Router, Switch,Route,} from "react-router-dom";
+    import {About, Users, Home} from 'pages'
+
+    export default App(){
+        return(
+           <Router> 
+                <NavBar/>
+                    <Switch>
+                        <Route path="/about">
+                            <About />
+                        </Route>
+                        <Route path="/users">
+                            <Users />
+                        </Route>
+                        <Route path="/">
+                            <Home />
+                        </Route>
+                    </Switch>
+                <Footer/>
+            <Router/>
+        )
+    }
+
+````
+Let's assume we just opened our app and the browser shows "https://www.yourAppDomain.com/" the route that matches with the current url is the third one, consecuentelly, `<Home/>` component will be rendered.  
+
+## Navigate between routes
+
+React Router provides a <Link> component to create links in your application. Wherever you render a `<Link>`, an anchor (`<a>`) will be rendered in your HTML document. This component behaves like an ordinary <a>, it will redirect you to the route that's passed as a prop `to`. Let's see the example below. We we can pass other parameters to make the url to behave dynamically, we'll see it later on this day.
+
+````javascript
+import {BrowserRouter as Router, Switch,Route, Link} from "react-router-dom";
+import {About, Users, Home} from 'pages'
+
+function NavBar(){
+    return(
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/about">About</Link>
+            </li>
+            <li>
+              <Link to="/users">Users</Link>
+            </li>
+          </ul>
+        </nav>
+    )
 }
-```
+export default App(){
+        return(
+           <Router> 
+                <NavBar/>
+                    <Switch>
+                        <Route path="/about">
+                            <About />
+                        </Route>
+                        <Route path="/users">
+                            <Users />
+                        </Route>
+                        <Route path="/">
+                            <Home />
+                        </Route>
+                    </Switch>
+                <Footer/>
+            <Router/>
+        )
+    }
 
-In this example, when the "Click Me" button is clicked, the handleClick function is executed, showing an alert message.
+````
+## Error Pages
 
-React event handlers receive an event object as an argument. This object contains information about the event, such as the target element and event type. You can access this object in your event handler function:
+Sometimes there is a chance that the user types an url that does not correspond to a `<Route>` element defined within our `<Switch/>` or maybe some error happened and the route does not exist. As a developers, we must handle this situation. The most common solution to this problem is to create a `<NotFound>` page and implement the component as it shows below.
 
-```javascript
-import React from "react";
+````javascript
+import {BrowserRouter as Router, Switch,Route, Link} from "react-router-dom";
+import {About, Users, Home} from 'pages'
 
-export default function MyComponent() {
-  const handleClick = (event) => {
-    alert("Button clicked!");
-    console.log(event.target); // Access the target element
-  };
-
-  return (
-    <div>
-      <button onClick={handleClick}>Click Me</button>
-    </div>
-  );
+function NotFound(){
+    return(
+        <div>
+            <h1>Ooops! We couldn't find the page that you are looking for</h1>
+        </div>
+    )
 }
-```
+export default App(){
+        return(
+           <Router> 
+                <NavBar/>
+                    <Switch>
+                        <Route path="/about">
+                            <About />
+                        </Route>
+                        <Route path="/users">
+                            <Users />
+                        </Route>
+                        <Route path="/">
+                            <Home />
+                        </Route>
+                         <Route path="*">
+                            <NotFound />
+                         </Route>
+                    </Switch>
+                <Footer/>
+            <Router/>
+        )
+    }
 
-React supports various event types, including `onClick`, `onChange`, `onSubmit`, `onKeyDown`, and many more. The event you choose depends on the type of user interaction you want to capture. In some cases, you might want to prevent the default behavior of an event, like stopping a form submission. You can achieve this by calling `event.preventDefault()` in your event handler.
+````
+By adding an `*` to the prop `path` we tell the `<Route>` component that every URL that the browser shows it's a match, but we don't want to show this error page every time, that's why we add it below the other `<Route>` elements. If we don't have any route match, it will show us the `<NotFound>` page. 
 
-```javascript
-const handleFormSubmit = (event) => {
-  event.preventDefault();
-  // ...
-};
-```
+## Dynamic Routing
 
-## React Custom Hooks
+Let's assume that we have a typical e-commerce with over 1000 products, we're gonna have to create a link for each product? Nope, that's where Dynamic Routing comes to save our time by making this task really easy. 
 
-### What are they
+First of All, we're gonna need to define our routes to handle dynamic routing. Let's get back to the e-commerce example and mix it with the example that's on top.
 
-> React comes with several built-in Hooks like `useState` , `useContext`, and `useEffect`. Sometimes, you’ll wish that there was a Hook for some more specific purpose: for
-> example, to fetch data, to keep track of whether the user is online, or to connect to a chat room. You might not find these Hooks in React, but you can create your own
-> Hooks for your application’s needs.
->
-> Source: https://react.dev/learn/reusing-logic-with-custom-hooks
+````javascript
+import {BrowserRouter as Router, Switch,Route, Link} from "react-router-dom";
+import {About, Users, Home, Product} from 'pages'
 
-Custom Hooks are a powerful and essential concept in React that allows to encapsulate and reuse stateful logic across multiple components. They are a way to abstract and share logic between functional components, making your code more modular, maintainable, and reusable.
-
-### How to create them
-
-To create a custom hook, you follow these steps:
-
-1. **Create a new file:** Start by creating a new JavaScript file for your custom hook. It's a good practice to name your hook with the word "use" followed by a descriptive name to make it clear that it's a custom hook.
-
-2. **Define the Custom Hook:** Create a function that encapsulates the stateful logic you want to reuse. This function should follow the React Hook naming convention by starting with "use"
-
-```javascript
-function useForm(initialValues) {
-  // Define your state and logic here
+function NotFound(){
+    return(
+        <div>
+            <h1>Ooops! We couldn't find the page that you are looking for</h1>
+        </div>
+    )
 }
-```
+export default App(){
+        return(
+           <Router> 
+                <NavBar/>
+                    <Switch>
+                        <Route path="/about">
+                            <About />
+                        </Route>
+                        <Route path="/users">
+                            <Users />
+                        </Route>
+                        <Route path="/">
+                            <Home />
+                        </Route>
+                         <Route path="/products/:id">
+                            <Product />
+                         </Route>
+                          <Route path="*">
+                            <NotFound />
+                         </Route>
+                    </Switch>
+                <Footer/>
+            <Router/>
+        )
+    }
 
-3. **Implement State and Logic**: Inside your custom hook, you can use built-in React hooks like `useState`, `useEffect`, or other custom hooks as needed to manage state and logic. For instance, if you're creating a form handling hook, you might use useState to manage form fields and their values.
+````
+Below the path `/` we added another route called `/products/:id` here, by defining an `:id` we're telling React Router that this route is dynamic, and the attribute that comes after the `/products/` can be picked up from another function that react router provides us (we'll jump on that later on). 
 
-```javascript
-import { useState } from "react";
+````javascript
+import { Link, useParams } from "react-router-dom";
 
-function useForm(initialValues) {
-  const [values, setValues] = useState(initialValues);
 
-  // Define form-related logic here
+export default ProductCard({ title, id, price }){
+        return(
+           <div>
+                <h1>{title}</h1>
+                <h3>${price}</h3>
+                </Link to=`/products/${id}` >
+           </div>
+        )
+    }
 
-  return {
-    values,
-    handleChange,
-    handleSubmit,
-    // Add any other functions or data you want to expose
-  };
-}
-```
+````
 
-4. **Return Exposed Functionality**: Return the state and functions you want to expose to components that use your custom hook. In this example, we return the form values and two functions, handleChange and handleSubmit, which components can use.
+On a typical e-commerce we'll have a card that shows the main product specifications (the product name and his respective price in this case) and it will redirect us to a bigger product page with other specifications and a bigger description. This card takes as props the `title`, `path` and `price` of the product. What we need to do here is to redirect the user to the specific product page that will show him more info about it. 
 
-### How to use them
+````javascript
+import { useParams } from "react-router-dom";
 
-In your React components, you can now import and use the custom hook you created. Import it just like you would import any other function.
+export default ProductPage(){
+    const {id} = useParams()
 
-```javascript
-import useForm from './useForm';
+    const [product, setProduct] = useState()
 
-export default function MyComponent() {
-  const { values, handleChange, handleSubmit } = useForm({
-    // Initial form values
-    name: '',
-    email: '',
-  });
+    useEffect(() => {
+        fetch(`/products/${id}`)
+        .then(product => setProduct(product))
+    }, [])
 
-  // Use the exposed values and functions
-  // ...
+        return(
+           <div>
+                <h1>{product.title}</h1>
+                <h3>${product.description}</h3>
+                <img>${product.price}</h3>
+                <button>Add to cart</button>
+           </div>
+        )
+    }
 
-  return (
-    // Your component JSX
-  );
-}
-```
+````
+The `useParams` hook returns an object of key/value pairs of the dynamic params from the current URL that were matched by the `<Route path>` thanks to the `useParams` hook that React Router provides us, we can catch the parameter `id` that comes within the product URL, and with this id we can make a simple API call to get data to our component with a little bit of help from the `useState` and `useEffect` hooks also.
 
-> _Note:_ Custom Hooks let you share stateful logic but not state itself. Each call to a Hook is completely independent from every other call to the same Hook.
->
-> Source: https://react.dev/learn/reusing-logic-with-custom-hooks
 
-## Debugging React apps
+## Protected Routes
 
-There are many ways to debug a React app, since React is built with Javascript. Debugging helps you identify and fix issues in your code, ensuring your application runs smoothly. The most common way to debug a particular section of Javascript code is to use the browser's developer console.
+Sometimes our application will have certain pages that are not allowed for everyone to access. This is where we need to implement `ProtectedRoutes` and `PublicRoutes` to our project. For implement them we need to go back to where we defined our routes. In this example it will be App.jsx
 
-React provides clear error messages in the browser's console when something goes wrong. These messages often include information about which component and line of code caused the error.
+`````javascript
 
-The simplest and most basic way to debug is by using `console.log()` statements to print values, objects, or messages to the console. You can place these statements in your component's functions to track the flow of data and state changes.
+    export default App(){
 
-```javascript
-function MyComponent() {
-  const [count, setCount] = useState(0);
+        const routes = [{
+            path: "/about"
+            element: <About/>,
+            private: false
+        },{
+            path: "/users"
+            element: <Users/>,
+            private: true
+        },{
+            path: "/products/:id"
+            element: <Product/>,
+            private: false
+        },{
+            path: "/"
+            element: <Home/>,
+            private: false
+        },{
+            path: "*"
+            element: <NotFound/>,
+            private: false
+        }]
+        return(
+           <Router> 
+                <NavBar/>
+                    <Switch>
+                       {
+                        routes.map(route =>{
+                            return(
+                                <Route path={route.path}>
+                                    {route.private ? <PrivateRoute element={route.element}/> : route.element}
+                                </Route>
+                            )
+                        })
+                       }
+                    </Switch>
+                </Footer>
+            </Router>
+        )
+    }
+`````
+In the example above, we're mapping the routes object and doing some conditional rendering for checking if the route is private or not, all the logic involved will be described in the `PrivateRoute` component. 
 
-  const handleIncrement = () => {
-    console.log("Increment button clicked");
-    setCount(count + 1);
-  };
+`````javascript
+    import { useContext } from 'react';
+    import { Navigate } from 'react-router-dom';
+    import { AuthContext } from '../context/AuthContext';
 
-  console.log("Render MyComponent with count:", count);
+    export default function PrivateRoute({ element }){
+    const { isAuthenticated } = useContext(AuthContext);
+    const isAuth = isAuthenticated();
 
-  return (
-    <div>
-      <p>Count: {count}</p>
-      <button onClick={handleIncrement}>Increment</button>
-    </div>
-  );
-}
-```
-
-Also, you can use the `debugger` statement in your code to set **breakpoints**. When your application runs into a debugger statement, it will pause execution, allowing you to inspect variables and the call stack in the browser's developer tools.
-
-```javascript
-function MyComponent() {
-  const [count, setCount] = useState(0);
-
-  const handleIncrement = () => {
-    debugger; // This will pause execution when clicked
-    setCount(count + 1);
-  };
-
-  return (
-    <div>
-      <p>Count: {count}</p>
-      <button onClick={handleIncrement}>Increment</button>
-    </div>
-  );
-}
-```
-
-### React DevTools
-
-React DevTools is a browser extension available for Chrome and Firefox that provides a set of tools for inspecting and debugging React components. It allows you to inspect the component tree, view props and state, and even modify them in real-time. You can install React DevTools from the Chrome Web Store or Firefox Add-ons. To use it, open your app in the browser, right-click on an element, and select "Inspect" In the "Components" tab, you can navigate the component tree and inspect component details.
-
-In addition to browser extensions, you can also use the standalone version of React Developer Tools. This tool works with any browser and allows you to inspect React components in a separate window. If you're using `Redux` for [state management](day_05.md#global-state-management), consider using the Redux DevTools extension. It allows you to inspect and debug your application's state changes and actions.
-
-Remember that effective debugging often requires a combination of these techniques and tools. Additionally, keep an eye on your browser's developer console for error messages and warnings, as they can provide valuable insights into potential issues in your React application.
+    return isAuth ? element : <Navigate to="/login" />;
+    }
+`````
+Here is a example of the logic involved in a protected route component, we're consuming a function that is telling us if the user is authenticated or not, which in this case comes from an Authentication Context. If the user is authenticated, we'll show the element that we passed as props on `App.jsx` if the user is not authenticated, we will redirect it to the login page in order to make the user login or register.

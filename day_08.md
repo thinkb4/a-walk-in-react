@@ -3,307 +3,288 @@
 ## DAY 8
 
 - [DAY 8](#day-8)
-    - [React Router](#react-router)
-        - [Installing React Router](#installing-react-router)
-        - [Defining Routes](#defining-routes)
-        - [Navigate between routes](#navigating)
-        - [Error pages](#error-pages)
-        - [Dynamic Routes](#dynamic-routes)
-        - [Protected Routes](#protected-routes)
+  - [Debugging React apps](#debugging-react-apps)
+    - [React DevTools](#react-devtools)
+  - [Testing React apps](#testing-react-apps)
+    - [Different kinds of tests](#different-kinds-of-tests)
+    - [Tools](#tools)
+    - [Writing our first test](#writing-our-first-test)
+    - [Testing Asynchronous Code](#testing-asynchronous-code)
+    - [Working with mocks](#working-with-mocks)
+  - [Deploying React apps](#deploying-react-apps)
+    - [Steps](#steps)
+      1. [Test and optimize your code](#1-test-and-optimize-your-code)
+          - [Lazy loading](#lazy-loading)
+      2. [Build the Application](#2-build-the-application)
+      3. [Deploy to server](#3-deploy-to-server)
 
-## React Router 
+## Debugging React apps
 
-What is react router? Well, since react has no embeded route managment tools, we need to appeal to a third party library to do this, there are a few libraries that do this, but the most used is React Router. This library is a tool that allows you to handle routes in a web app, using commonly dynamic routing. Dynamic routing takes place as the app is rendering on your machine, unlike the old routing architecture where the routing is handled in a configuration outside of a running app. React router implements a component-based approach to routing. It provides different routing components according to the needs of the application and platform.
+There are many ways to debug a React app, since React is built with Javascript. Debugging helps you identify and fix issues in your code, ensuring your application runs smoothly. The most common way to debug a particular section of Javascript code is to use the browser's developer console.
 
-## Installing React Router
+React provides clear error messages in the browser's console when something goes wrong. These messages often include information about which component and line of code caused the error.
 
-Installing React Router in our project is as simple as to run `npm install react-router-dom` or `yarn add react-router-dom`
+The simplest and most basic way to debug is by using `console.log()` statements to print values, objects, or messages to the console. You can place these statements in your component's functions to track the flow of data and state changes.
 
-## Defining Routes
+```javascript
+function MyComponent() {
+  const [count, setCount] = useState(0);
 
-In most common cases, in our `App.jsx` file is where the magic occurs. In this file is where we're gonna define our app routes. 
+  const handleIncrement = () => {
+    console.log("Increment button clicked");
+    setCount(count + 1);
+  };
 
-React Router provides us a few components to use, we're gonna focus on `<Switch/>`, `<Route/>` and `<Router/>` components. Which are the most commonly used on basic routing building. Later on we're gonna focus on private routing (which are routes that only authenticated users can access)
+  console.log("Render MyComponent with count:", count);
 
-First of all, we need to import all the required components from `react-router-dom`
-````javascript
-    import {BrowserRouter as Router, Switch,Route,} from "react-router-dom";
-
-    export default App(){
-        return(
-            <h1>We're learning Routes!</h1>
-        )
-    }
-
-````
-
-After we have imported all the components that React Router provides us let's start building our Routes. For creating the routes, we need to wrap our application with the `<Router/>` component. Inside the `<Router/>` component we can create our layout. In this example we have simple layout that's made with a `<NavBar/>` and `<Footer/>` components. Every component that's outside the `<Switch/>` component will remain untouched.  When a `<Switch>` is rendered, it searches through its children `<Route>` elements to find one whose path matches the current URL. When it finds one, it renders that `<Route>` and ignores all others.
-
-````javascript
-    import {BrowserRouter as Router, Switch,Route,} from "react-router-dom";
-    import {About, Users, Home} from 'pages'
-
-    export default App(){
-        return(
-           <Router> 
-                <NavBar/>
-                    <Switch>
-                        <Route path="/about">
-                            <About />
-                        </Route>
-                        <Route path="/users">
-                            <Users />
-                        </Route>
-                        <Route path="/">
-                            <Home />
-                        </Route>
-                    </Switch>
-                <Footer/>
-            <Router/>
-        )
-    }
-
-````
-Let's assume we just opened our app and the browser shows "https://www.yourAppDomain.com/" the route that matches with the current url is the third one, consecuentelly, `<Home/>` component will be rendered.  
-
-## Navigate between routes
-
-React Router provides a <Link> component to create links in your application. Wherever you render a `<Link>`, an anchor (`<a>`) will be rendered in your HTML document. This component behaves like an ordinary <a>, it will redirect you to the route that's passed as a prop `to`. Let's see the example below. We we can pass other parameters to make the url to behave dynamically, we'll see it later on this day.
-
-````javascript
-import {BrowserRouter as Router, Switch,Route, Link} from "react-router-dom";
-import {About, Users, Home} from 'pages'
-
-function NavBar(){
-    return(
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/about">About</Link>
-            </li>
-            <li>
-              <Link to="/users">Users</Link>
-            </li>
-          </ul>
-        </nav>
-    )
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={handleIncrement}>Increment</button>
+    </div>
+  );
 }
-export default App(){
-        return(
-           <Router> 
-                <NavBar/>
-                    <Switch>
-                        <Route path="/about">
-                            <About />
-                        </Route>
-                        <Route path="/users">
-                            <Users />
-                        </Route>
-                        <Route path="/">
-                            <Home />
-                        </Route>
-                    </Switch>
-                <Footer/>
-            <Router/>
-        )
-    }
+```
 
-````
-## Error Pages
+Also, you can use the `debugger` statement in your code to set **breakpoints**. When your application runs into a debugger statement, it will pause execution, allowing you to inspect variables and the call stack in the browser's developer tools.
 
-Sometimes there is a chance that the user types an url that does not correspond to a `<Route>` element defined within our `<Switch/>` or maybe some error happened and the route does not exist. As a developers, we must handle this situation. The most common solution to this problem is to create a `<NotFound>` page and implement the component as it shows below.
+```javascript
+function MyComponent() {
+  const [count, setCount] = useState(0);
 
-````javascript
-import {BrowserRouter as Router, Switch,Route, Link} from "react-router-dom";
-import {About, Users, Home} from 'pages'
+  const handleIncrement = () => {
+    debugger; // This will pause execution when clicked
+    setCount(count + 1);
+  };
 
-function NotFound(){
-    return(
-        <div>
-            <h1>Ooops! We couldn't find the page that you are looking for</h1>
-        </div>
-    )
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={handleIncrement}>Increment</button>
+    </div>
+  );
 }
-export default App(){
-        return(
-           <Router> 
-                <NavBar/>
-                    <Switch>
-                        <Route path="/about">
-                            <About />
-                        </Route>
-                        <Route path="/users">
-                            <Users />
-                        </Route>
-                        <Route path="/">
-                            <Home />
-                        </Route>
-                         <Route path="*">
-                            <NotFound />
-                         </Route>
-                    </Switch>
-                <Footer/>
-            <Router/>
-        )
-    }
+```
 
-````
-By adding an `*` to the prop `path` we tell the `<Route>` component that every URL that the browser shows it's a match, but we don't want to show this error page every time, that's why we add it below the other `<Route>` elements. If we don't have any route match, it will show us the `<NotFound>` page. 
+### React DevTools
 
-## Dynamic Routing
+React DevTools is a browser extension available for Chrome and Firefox that provides a set of tools for inspecting and debugging React components. It allows you to inspect the component tree, view props and state, and even modify them in real-time. You can install React DevTools from the Chrome Web Store or Firefox Add-ons. To use it, open your app in the browser, right-click on an element, and select "Inspect" In the "Components" tab, you can navigate the component tree and inspect component details.
 
-Let's assume that we have a typical e-commerce with over 1000 products, we're gonna have to create a link for each product? Nope, that's where Dynamic Routing comes to save our time by making this task really easy. 
+In addition to browser extensions, you can also use the standalone version of React Developer Tools. This tool works with any browser and allows you to inspect React components in a separate window. If you're using `Redux` for [state management](day_05.md#global-state-management), consider using the Redux DevTools extension. It allows you to inspect and debug your application's state changes and actions.
 
-First of All, we're gonna need to define our routes to handle dynamic routing. Let's get back to the e-commerce example and mix it with the example that's on top.
+Remember that effective debugging often requires a combination of these techniques and tools. Additionally, keep an eye on your browser's developer console for error messages and warnings, as they can provide valuable insights into potential issues in your React application.
 
-````javascript
-import {BrowserRouter as Router, Switch,Route, Link} from "react-router-dom";
-import {About, Users, Home, Product} from 'pages'
+## Testing React apps
 
-function NotFound(){
-    return(
-        <div>
-            <h1>Ooops! We couldn't find the page that you are looking for</h1>
-        </div>
-    )
+As we write our code we can run and preview our application. We get to see what the user will see and that allows us to make sure the app is running smoothly. This is called Manual testing and it is an important step in the development of our app. However, it can be error-prone since it's difficult to test all the different scenarios and options that may come up.  
+[Automated testing](https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Cross_browser_testing/Automated_testing) is a technique where we write code that will test out the application. It is an automation of a manual process that allows to run repetitive tasks without any intervention. It's important to note that testing does not happen at the end of the cycle, rather it is conducted simultaneously with the development.
+
+### Different kinds of tests
+
+There are many [types of tests](https://www.geeksforgeeks.org/types-software-testing/) that can be run in order to ensure our code is working properly, is efficient, clean, and optimized. For the purpose of this course, we will focus on the most common test for React applications.
+
+**Unit tests**
+
+Running tests in the smaller possible units of code from our application. It implies testing individual blocks of code (functions, components) in isolation. Unit tests will assert the expected input to a function that matches the expected output. They are easy to implement in a React project and there are several tools that we can use to run them.
+
+**Integration tests**
+
+Integration tests verify that the combination of multiple building blocks is working correctly. They focus mainly on the flow o data between different modules. Integration tests deal with mocking these 3rd party dependencies and asserting the code interfacing with them behaves as expected.
+
+**End-to-end tests**
+
+End-to-end tests cover the user journey through a specific path in our application. An End2End test plan can be something like "user can add items to cart" or "user can change password". they capture and replay the user's actions and can provide knowledge as to whether a user will have a bug-free experience when performing a specific task.
+
+### Tools
+
+We will need to set up a tool that will run and assert our tests. There are many testing tools out there but one of the most popular testing libraries for Javascript is [Jest](https://jestjs.io/) _"a delightful JavaScript Testing Framework with a focus on simplicity. It allows you to write tests with an approachable, familiar, and feature-rich API that gives you results quickly."_  
+Jest is an easy to setup tool that runs fast and will allow you to run tests, easy [mock functions](https://jestjs.io/docs/mock-function-api/), and features like [snapshot testing](https://jestjs.io/docs/snapshot-testing) or a code coverage report.
+
+At the same time, we will also need [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) which is a library that works with what is in the DOM. It's used with Jest and it's is a set of helpers that lets you test React components without relying on their implementation details and allows you to work with DOM nodes specifically.
+Although it doesn’t provide a way to “shallowly” render a component without its children, Jest will let you do this by mocking. Jest is a test runner, React Testing Library is not.
+
+### Writing our first test
+
+If you used create-react-app to create your project, Jest is already installed. If not we suggest you check out the [Jest documentation page](https://jestjs.io/docs/getting-started) and follow the steps for installation according to your project's setup.
+
+Once you are all set up we can create our first test. By convention test files have the same name as the component being tested with the .test extension such as _example.test.js_
+
+In our case, we will create a test for this Greeting.js component:
+
+```javascript
+const Greeting = () => {
+  return (
+    <div>
+      <h1>Hello World<h1>
+    </div>
+  )
 }
-export default App(){
-        return(
-           <Router> 
-                <NavBar/>
-                    <Switch>
-                        <Route path="/about">
-                            <About />
-                        </Route>
-                        <Route path="/users">
-                            <Users />
-                        </Route>
-                        <Route path="/">
-                            <Home />
-                        </Route>
-                         <Route path="/products/:id">
-                            <Product />
-                         </Route>
-                          <Route path="*">
-                            <NotFound />
-                         </Route>
-                    </Switch>
-                <Footer/>
-            <Router/>
-        )
-    }
+```
 
-````
-Below the path `/` we added another route called `/products/:id` here, by defining an `:id` we're telling React Router that this route is dynamic, and the attribute that comes after the `/products/` can be picked up from another function that react router provides us (we'll jump on that later on). 
+So in our Greeting.test.js file we need to call the test() function which takes two arguments, the first one is the test name which is usually a brief description of the test, and the second one is an anonymous function the expectations to test. The third argument is an optional timeout to wait before aborting, the default is 5 seconds, and we will not alter that.
 
-````javascript
-import { Link, useParams } from "react-router-dom";
+```javascript
+import Greeting from "./Greeting.js";
+import { render, screen } from "@testing-library/react";
 
+test("renders Hello World as text", () => {
+  render(<Greeting />);
+  const helloWorldElem = screen.getByText("Hello World");
 
-export default ProductCard({ title, id, price }){
-        return(
-           <div>
-                <h1>{title}</h1>
-                <h3>${price}</h3>
-                </Link to=`/products/${id}` >
-           </div>
-        )
-    }
+  expect(helloWorldElem).toBeInTheDocument();
+});
+```
 
-````
+In the example above we used the [render](https://testing-library.com/docs/react-testing-library/api#render) function from the React Testing Library in order to render the React element into the DOM. We then used the [screen](https://testing-library.com/docs/queries/about/#screen) object to run a query on a rendered element of the DOM and store that in a variable.  
+The [expect](https://jestjs.io/docs/expect#expect) function allows us to test a value. Typically expect will be used with a ["matcher" function](https://jestjs.io/docs/expect#matchers) to assert something about a value. In this case we _expected_ that string to be in the DOM.  
+ There are plenty of _matcher functions_ that we can use with the expect method. You can take a look at them by following the above link.
 
-On a typical e-commerce we'll have a card that shows the main product specifications (the product name and his respective price in this case) and it will redirect us to a bigger product page with other specifications and a bigger description. This card takes as props the `title`, `path` and `price` of the product. What we need to do here is to redirect the user to the specific product page that will show him more info about it. 
+You can run _yarn test_ or _npm test_ to run your test.
 
-````javascript
-import { useParams } from "react-router-dom";
+#### Grouping tests in a suite
 
-export default ProductPage(){
-    const {id} = useParams()
+[Describe](https://jestjs.io/docs/api#describename-fn) is a method that creates a block that groups several related tests. This function takes two arguments where the first one is the name of the grouped tests, and the second is an anonymous function that has each individual test.
 
-    const [product, setProduct] = useState()
+```javascript
+const myBeverage = {
+  delicious: true,
+  sour: false,
+};
 
-    useEffect(() => {
-        fetch(`/products/${id}`)
-        .then(product => setProduct(product))
-    }, [])
+describe("my beverage", () => {
+  test("is delicious", () => {
+    expect(myBeverage.delicious).toBeTruthy();
+  });
 
-        return(
-           <div>
-                <h1>{product.title}</h1>
-                <h3>${product.description}</h3>
-                <img>${product.price}</h3>
-                <button>Add to cart</button>
-           </div>
-        )
-    }
+  test("is not sour", () => {
+    expect(myBeverage.sour).toBeFalsy();
+  });
+});
+```
 
-````
-The `useParams` hook returns an object of key/value pairs of the dynamic params from the current URL that were matched by the `<Route path>` thanks to the `useParams` hook that React Router provides us, we can catch the parameter `id` that comes within the product URL, and with this id we can make a simple API call to get data to our component with a little bit of help from the `useState` and `useEffect` hooks also.
+This is helpful for organizing tests into groups, and can even be used to nest tests if they have a defined hierarchy.
 
+### Testing Asynchronous Code
 
-## Protected Routes
+When writing Javascript we usually write code that runs asynchronously, this can cause issues if Jest does not know when the tested code is completed, to move on to another test. To handle these situations Jest has several options:
 
-Sometimes our application will have certain pages that are not allowed for everyone to access. This is where we need to implement `ProtectedRoutes` and `PublicRoutes` to our project. For implement them we need to go back to where we defined our routes. In this example it will be App.jsx
+**1. Return a promise from your test**  
+Jest will wait for that promise to resolve and if the promise is rejected, the test will fail.
 
-`````javascript
+For example, let's say that fetchData returns a promise that is supposed to resolve to the string 'peanut butter'. We could test it with:
 
-    export default App(){
+```javascript
+test("the data is peanut butter", () => {
+  return fetchData().then((data) => {
+    expect(data).toBe("peanut butter");
+  });
+});
+```
 
-        const routes = [{
-            path: "/about"
-            element: <About/>,
-            private: false
-        },{
-            path: "/users"
-            element: <Users/>,
-            private: true
-        },{
-            path: "/products/:id"
-            element: <Product/>,
-            private: false
-        },{
-            path: "/"
-            element: <Home/>,
-            private: false
-        },{
-            path: "*"
-            element: <NotFound/>,
-            private: false
-        }]
-        return(
-           <Router> 
-                <NavBar/>
-                    <Switch>
-                       {
-                        routes.map(route =>{
-                            return(
-                                <Route path={route.path}>
-                                    {route.private ? <PrivateRoute element={route.element}/> : route.element}
-                                </Route>
-                            )
-                        })
-                       }
-                    </Switch>
-                </Footer>
-            </Router>
-        )
-    }
-`````
-In the example above, we're mapping the routes object and doing some conditional rendering for checking if the route is private or not, all the logic involved will be described in the `PrivateRoute` component. 
+**2. Use async and await in your tests.**  
+Use the async keyword in front of the function passed to test. You can combine async and await with .resolves or .rejects. In the following example, async and await are effectively syntactic sugar for the same logic as the promises example uses.
 
-`````javascript
-    import { useContext } from 'react';
-    import { Navigate } from 'react-router-dom';
-    import { AuthContext } from '../context/AuthContext';
+```javascript
+test("the data is peanut butter", async () => {
+  await expect(fetchData()).resolves.toBe("peanut butter");
+});
 
-    export default function PrivateRoute({ element }){
-    const { isAuthenticated } = useContext(AuthContext);
-    const isAuth = isAuthenticated();
+test("the fetch fails with an error", async () => {
+  await expect(fetchData()).rejects.toMatch("error");
+});
+```
 
-    return isAuth ? element : <Navigate to="/login" />;
-    }
-`````
-Here is a example of the logic involved in a protected route component, we're consuming a function that is telling us if the user is authenticated or not, which in this case comes from an Authentication Context. If the user is authenticated, we'll show the element that we passed as props on `App.jsx` if the user is not authenticated, we will redirect it to the login page in order to make the user login or register.
+Jest has other suggested methods to resolve the testing of asynchronous code. You can refer to their [documentation](https://jestjs.io/docs/asynchronous) for more details. The main takeaway here is that when the code you are testing is not synchronous, you must ensure Jest knows about it or it will move into a new test without running the complete code.
+
+### Working with mocks
+
+Many times our components will have http requests that connect to servers and usually, we will want to test how our components behaves according to the outcome of those requests.  
+But when we are testing we don't generally want to send http requests to our servers to avoid overloading the network with traffic or even editing database records. We could send requests to testing servers, but we can avoid sending requests entirely by using Jest's mock functions.
+
+[Mock functions](https://jestjs.io/docs/mock-function-api/) allow us to replace and imitate the behavior of dependencies in our code but only when we are running the test. It provides features to capture calls, set return values, or change implementations.  
+You can create a mock function with jest.fn() which returns an object of type "mock". If no implementation is given, the mock function will return undefined when invoked.
+
+```javascript
+test("async test", async () => {
+  const asyncMock = jest.fn().mockResolvedValue(43);
+
+  await asyncMock(); // 43
+});
+```
+
+In the example above we used **mockFn.mockResolvedValue(value)** which is useful to mock async functions in async tests. In this case, it will return the provided value. There are many mock functions for different scenarios, you can check each case in Jest's [documentation page](https://jestjs.io/docs/mock-function-api/#reference).
+
+This module was only intended to provide you with an introduction to testing in React, and some of the most commonly used tools. If you want to further your knowledge in the matter we suggest to refer to the official documentation linked on each subject and you can also check out this [course by freecodecamp](https://www.freecodecamp.org/news/how-to-test-react-applications/) or plenty other tutorials online.
+
+## Deploying React apps
+
+Up until this moment we have been writing code and testing our application locally. In order to share our application we will need to follow some steps to _deploy_ it.
+
+### Steps
+
+### 1. Test and optimize your code
+
+Before deploying our application we must thoroughly test it and optimize our code for better performance.
+One of the ways we can do this is by applying _lazy loading_ in certain components that may make our application slower.
+
+### Lazy loading
+
+As we've seen previously we must import the components we are using for them to work, import connects the different files, and all imported files must be loaded in order for our component to render. This means that before the application is shown to end users, all the imports must be resolved previously to showing something on the screen. In a simple application, this poses no problem but in larger applications, it can cause slow rendering or other performance issues. [Lazy Loading](https://react.dev/reference/react/lazy) can help with this.
+
+**Lazy loading** means that we will only run certain pieces of code when they are needed.
+To add lazy loading we need to remove the simple import we've been using. Instead, we will import _lazy_ function from react and call it to declare a lazy-loaded component.
+
+```javascript
+import { lazy } from "react";
+
+const MarkdownPreview = lazy(() => import("./MarkdownPreview.js"));
+```
+
+The lazy function returns a React component that you can render in your component tree. It takes _load_ as a parameter which is a function that returns a Promise or another Promise-like object with a _then_ method. After the load method is called, React will wait for it to be resolved to render the component.
+
+> _Note:_ Both the returned Promise and the Promise’s resolved value will be cached, so React will not call load more than once. If the Promise rejects, React will throw the rejection reason for the nearest Error Boundary to handle.
+
+React provides a [_Suspense_](https://react.dev/reference/react/Suspense) component that we can use to indicate to the user that the content is loading. We can provide a fallback property to Suspense that we can use until the component is rendered.
+You can use it by wrapping the lazy component or any of it's parents with it.
+
+```javascript
+<Suspense fallback={<Loading />}>
+  <h2>Preview</h2>
+  <MarkdownPreview />
+</Suspense>
+```
+
+Keep in mind you should not declare lazy components _inside_ other components but rather at the top level of your module.
+
+```javascript
+import { lazy } from "react";
+
+function Editor() {
+  // 🔴 Bad: This will cause all state to be reset on re-renders
+  const MarkdownPreview = lazy(() => import("./MarkdownPreview.js"));
+  // ...
+}
+```
+
+```javascript
+import { lazy } from "react";
+
+// ✅ Good: Declare lazy components outside of your components
+const MarkdownPreview = lazy(() => import("./MarkdownPreview.js"));
+
+function Editor() {
+  // ...
+}
+```
+
+### 2. Build the Application
+
+The code we have written is not the one that will be deployed. Our code is optimized for human readability and sometimes uses features not supported by browsers (like JSX code).  
+Instead, we must execute a script _npm run build_ that will create a bundle with a highly optimized and compressed version of our code, and store it in a **build** folder that will be created at the root of our project. And it's the contents of that folder that will be deployed to the server.
+
+### 3. Deploy
+
+Our application is ready to be deployed. It is a static website that only contains HTML, CSS, and Javascript. No code will ran in the server but rather it will be parsed and executed by our visitor's browser.  
+The React SPA only requires a static site host.
+There are many providers and you can search them online. Typically they will provide you with the steps to upload and deploy your project.  
+Here you'll find tutorials for deploying your app in [Firebase](https://create-react-app.dev/docs/deployment/#firebase) or [Github pages](https://create-react-app.dev/docs/deployment/#github-pages), or you can read [this tutorial](https://blog.logrocket.com/8-ways-deploy-react-app-free/) with different options for deploying.

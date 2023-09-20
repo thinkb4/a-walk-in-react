@@ -3,14 +3,118 @@
 ## DAY 6
 
 - [DAY 6](#day-6)
+  - [Other React built-in hooks](#other-react-builtin-hooks)
+    - [useRef Hook](#useref-hook)
+    - [useReducer](#usereducer)
+    - [Performance Hooks](#performance-hooks)
+      - [useMemo](#usememo)
+      - [useCallback](#usecallback)
+  - [React Custom Hooks](#react-custom-hooks)
+    - [What are they](#what-are-they)
+    - [How to create them](#how-to-create-them)
+    - [How to use them](#how-to-use-them)
 
-  - [useReducer](#usereducer)
-  - [Performance Hooks](#performance-hooks)
-    - [useMemo](#usememo)
-    - [useCallback](#usecallback)
-  - [Forms in React](#forms-in-react)
+## Other React built-in hooks
 
-## useReducer
+### useRef Hook
+
+The useRef hook is a built-in hook in React that allows you to create a mutable reference that persists across re-renders of a functional component. It provides a way to access and manipulate DOM elements or any other mutable value without triggering a re-render.
+
+When you use the useRef hook, it returns a mutable object with a **.current** property. This **.current** property can be used to store any value and is not affected by component re-renders. It maintains the same value between renders, unlike normal variables within the component function body.
+
+```javascript
+const ref = useRef(initialValue);
+```
+
+**initialValue**: The value you want the ref object’s current property to be initially. It can be a value of any type. This argument is ignored after the initial render.
+
+```javascript
+const ref = useRef(initialValue);
+
+function doSomething() {
+  console.log(ref.current);
+  //...
+}
+```
+
+useRef returns an object with a single property: current.
+
+**current**: Initially, it’s set to the initialValue you have passed. You can later set it to something else. If you pass the ref object to React as a ref attribute to a JSX node, React will set its current property.
+
+It’s particularly common to use a ref to manipulate the DOM. React has built-in support for this.
+
+```javascript
+import { useRef } from "react";
+
+function MyComponent() {
+  const inputRef = useRef(null);
+  // ...
+
+  return <input ref={inputRef} />;
+}
+```
+
+After React creates the DOM node and puts it on the screen, React will set the current property of your ref object to that DOM node. Now you can access the **input’s** DOM node and call methods.
+
+For example:
+
+```javascript
+import { useRef } from "react";
+
+export default function Form() {
+  const inputRef = useRef(null);
+
+  function handleClick() {
+    inputRef.current.focus();
+  }
+
+  return (
+    <>
+      <input ref={inputRef} />
+      <button onClick={handleClick}>Focus the input</button>
+    </>
+  );
+}
+```
+
+All the code examples and explanations are from https://react.dev/reference/react/useRef
+
+> **Important!**
+>
+> Do not write or read **ref.current** during rendering. React expects that the body of your component behaves like a pure function.
+>
+> ```javascript
+> function MyComponent() {
+>   // ...
+>   // 🚩 Don't write a ref during rendering
+>   myRef.current = 123;
+>   // ...
+>   // 🚩 Don't read a ref during rendering
+>   return <h1>{myOtherRef.current}</h1>;
+> }
+> ```
+>
+> You can read or write refs from event handlers or effects instead.
+>
+> ```javascript
+> function MyComponent() {
+>   // ...
+>   useEffect(() => {
+>     // ✅ You can read or write refs in effects
+>     myRef.current = 123;
+>   });
+>   // ...
+>   function handleClick() {
+>     // ✅ You can read or write refs in event handlers
+>     doSomething(myOtherRef.current);
+>   }
+>   // ...
+> }
+> ```
+>
+> Source: https://react.dev/reference/react/useRef
+
+### useReducer
 
 **useReducer** hook is a powerful tool that allows you to manage complex state logic in your components. It is an alternative to the more commonly used **useState hook**, and it provides a way to update state based on previous state and an action.
 
@@ -300,78 +404,76 @@ By utilizing the **useCallback** hook effectively, you can optimize the performa
 >
 > Source: https://react.dev/reference/react/useCallback
 
-## Forms in React
+## React Custom Hooks
 
-Working with **forms** in ReactJS is a little different than Vanilla Javascript. React encourages a "single source of truth" approach to state management. Form data is typically stored in the component's state, and any changes to the form inputs are reflected in the state immediately using the `onChange` event. React's unidirectional data flow ensures that the state remains consistent and helps manage form data efficiently. In vanilla JavaScript, you have the flexibility to manage form data and state in various ways. You could use global variables, local variables, or other custom data structures to handle form data changes. However, this approach might require extra effort to manage state consistently, especially in large applications.
+### What are they
 
-React uses the **virtual DOM**, which is an in-memory representation of the actual DOM. When form inputs change, React efficiently updates only the necessary parts of the virtual DOM, and then, through a process called reconciliation, it updates the real DOM with the minimum required changes. But, with vanilla JavaScript, you need to manually manipulate the DOM to update form values and handle form events. This involves directly accessing DOM elements, reading input values, and updating the UI accordingly. This approach may lead to more verbose and error-prone code, especially for complex forms.
+> React comes with several built-in Hooks like `useState` , `useContext`, and `useEffect`. Sometimes, you’ll wish that there was a Hook for some more specific purpose: for
+> example, to fetch data, to keep track of whether the user is online, or to connect to a chat room. You might not find these Hooks in React, but you can create your own
+> Hooks for your application’s needs.
+>
+> Source: https://react.dev/learn/reusing-logic-with-custom-hooks
 
-> Overall, ReactJS simplifies form handling by providing a declarative approach to UI development, efficient DOM updates, and state management out of the box. In contrast, working with
-> forms in vanilla JavaScript requires more low-level DOM manipulation and state management.
+Custom Hooks are a powerful and essential concept in React that allows to encapsulate and reuse stateful logic across multiple components. They are a way to abstract and share logic between functional components, making your code more modular, maintainable, and reusable.
 
-Let's see an example of how to handle a Form with React:
+### How to create them
+
+To create a custom hook, you follow these steps:
+
+1. **Create a new file:** Start by creating a new JavaScript file for your custom hook. It's a good practice to name your hook with the word "use" followed by a descriptive name to make it clear that it's a custom hook.
+
+2. **Define the Custom Hook:** Create a function that encapsulates the stateful logic you want to reuse. This function should follow the React Hook naming convention by starting with "use"
 
 ```javascript
-function MyForm() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
+function useForm(initialValues) {
+  // Define your state and logic here
+}
+```
+
+3. **Implement State and Logic**: Inside your custom hook, you can use built-in React hooks like `useState`, `useEffect`, or other custom hooks as needed to manage state and logic. For instance, if you're creating a form handling hook, you might use useState to manage form fields and their values.
+
+```javascript
+import { useState } from "react";
+
+function useForm(initialValues) {
+  const [values, setValues] = useState(initialValues);
+
+  // Define form-related logic here
+
+  return {
+    values,
+    handleChange,
+    handleSubmit,
+    // Add any other functions or data you want to expose
+  };
+}
+```
+
+4. **Return Exposed Functionality**: Return the state and functions you want to expose to components that use your custom hook. In this example, we return the form values and two functions, handleChange and handleSubmit, which components can use.
+
+### How to use them
+
+In your React components, you can now import and use the custom hook you created. Import it just like you would import any other function.
+
+```javascript
+import useForm from './useForm';
+
+export default function MyComponent() {
+  const { values, handleChange, handleSubmit } = useForm({
+    // Initial form values
+    name: '',
+    email: '',
   });
 
-  function handleChange(e) {
-    const { name, value } = e.target;
-
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  }
+  // Use the exposed values and functions
+  // ...
 
   return (
-    <form>
-      <input
-        type="text"
-        name="name"
-        value={formData.name}
-        onChange={handleChange}
-        placeholder="Enter your name"
-      />
-      <input
-        type="email"
-        name="email"
-        value={formData.email}
-        onChange={handleChange}
-        placeholder="Enter your email"
-      />
-    </form>
+    // Your component JSX
   );
 }
 ```
 
-In this example, we started by defining the initial state of the `Form Component` using **useState** hook. This state will hold the values of the form fields. Then, for each form field, we should attach an `onChange event handler` to update the corresponding state value as the user types in the input field. By using the onChange event handler and updating the state with the new values, the component will automatically re-render with the updated state, reflecting the user's input.
-
-Let's add a form submission:
-
-```javascript
-function MyForm() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-  });
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    sendData(formData); // Or do anything with form data.
-  }
-
-  return (
-    <form onSubmit={handleSubmit}>
-      {/* Form fields */}
-
-      <button type="submit">Submit</button>
-    </form>
-  );
-}
-```
-
-To handle **form submission**, we attached an `onSubmit event handler` to the form element. This handler can send the form data to a server or perform any necessary actions based on the form data. It's important to note that the `submit event` will try to submit the Form by default, but in this case, we didn't specify an action property in the [`<form>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form) tag. To prevent the default form submission behavior, we used the [preventDefault](https://developer.mozilla.org/es/docs/Web/API/Event/preventDefault) method. This ensures that the form data is processed as intended within our React application without triggering a full page reload.
+> _Note:_ Custom Hooks let you share stateful logic but not state itself. Each call to a Hook is completely independent from every other call to the same Hook.
+>
+> Source: https://react.dev/learn/reusing-logic-with-custom-hooks

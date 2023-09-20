@@ -64,10 +64,12 @@
   - CSS stylesheet
   - CSS modules
   - Dynamic styles
-- useRef Hook
+- Events
+  - Listening to event handlers
 
 ## DAY 5
 
+- Forms in React
 - React Context API
   - createContext
   - useContext Hook
@@ -76,34 +78,31 @@
 
 ## DAY 6
 
-- useReducer
-- Performance Hooks
-  - useMemo
-  - useCallback
-- Forms in React
-
-## DAY 7
-
-- Events
-  - Listening to event handlers
+- Other React built-in hooks
+  - useRef
+  - useReducer
+  - Performance Hooks
+    - useMemo
+    - useCallback
 - React Custom Hooks
   - What are they
   - How to create them
   - How to use them
-- Debugging React apps
-  - React DevTools
+
+## DAY 7
+
+- React Router Library
+  - Installing React Router
+  - Defining routes
+  - Navigate between routes
+  - Error pages
+  - Dynamic routes
+  - Protected routes
 
 ## DAY 8
 
-- React Router
-  - Install and set update
-  - Defining routes
-  - Navigaste between links
-  - Error pages
-  - Dynamic routes
-
-## DAY 9
-
+- Debugging React apps
+  - React DevTools
 - Testing React apps
   - Different kinds of tests
   - Tools
@@ -113,6 +112,6 @@
 - Deploying React apps
   - Steps
     1. Test and optimize your code.
-      - Lazy loading
+        - Lazy loading
     2. Build the Application
-    3. Deploy to server
+    3. Deploy
