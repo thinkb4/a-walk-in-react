@@ -2,26 +2,28 @@
 
 ## DAY 2
 
-- [DAY 2](#day-2)
+- [A walk in React](#a-walk-in-react)
+  - [DAY 2](#day-2)
   - [Components](#components)
     - [My first component](#my-first-component)
     - [Reusable components](#reusable-components)
-    - [JSX](#jsx)
+    - [Import and export components](#import-and-export-components)
+  - [JSX](#jsx)
   - [Props](#props)
-    - [What are props](#what-are-props)
+    - [What are props?](#what-are-props)
     - [Props default value](#props-default-value)
     - [Props as children](#props-as-children)
-  - [Class Based Components (legacy)](#class-based-components)
+  - [Class based components](#class-based-components)
     - [Class based vs Functional components](#class-based-vs-functional-components)
 
-> _Note:_ As we move further in the course, we encourage you to copy and paste the code examples we provide in the application we created in the first lessson. Be sure to run the application so you can see you first React code in action! And feel free to make your own modifications and exprement with the results.
+> _Note:_ As we move further in the course, we encourage you to copy and paste the code examples we provide in the application we created in the first lesson. Be sure to run the application so you can see you first React code in action! And feel free to make your own modifications and experiment with the results.
 
 ## Components
 
-React components are the fundation on which react applicatios are built. They are "reusable UI elements" that allow you to combine the markup, CSS and Javascript in one single building block that can be ordered, nested and reused in order to create entire applications.
+React components are the foundation on which react applications are built. They are "reusable UI elements" that allow you to combine the markup, CSS and Javascript in one single building block that can be ordered, nested and reused in order to create entire applications.
 
 > A React component is a JavaScript function that you can sprinkle with markup.  
->  Source: [React Oficial Documentation](https://react.dev/learn/your-first-component)
+> Source: [React Official Documentation](https://react.dev/learn/your-first-component)
 
 ### My first component
 
@@ -33,9 +35,9 @@ export default function MyFirstComponent() {
 }
 ```
 
-As you can see the main function has a prefix if export default which is a standard Javascript syntax that will allow oyu to improt the file from other files.
+As you can see the main function has a prefix if export default which is a standard Javascript syntax that will allow you to import the file from other files.
 
-> _Note:_ React components are regular JavaScript functions, but their names must start with a capital letter or they won’t work! this allows React to undestard if they are Components or HTML tags.
+> _Note:_ React components are regular JavaScript functions, but their names must start with a capital letter or they won’t work! this allows React to understand if they are Components or HTML tags.
 
 Te components returns an h1 tag written like HTML but it is actually JSX, a syntax that allows to embed markup inside JavaScript (More on JSX later)
 
@@ -61,7 +63,7 @@ function MyFirstComponent() {
   return <p>Hello world</p>;
 }
 
-export default function MyComponens() {
+export default function MyComponents() {
   return (
     <section>
       <h1>Awesome components</h1>
@@ -119,9 +121,9 @@ You may see some code that leaves off the .js file extension in the import, and 
 
 The official React docs define JSX as _"a syntax extension for JavaScript that lets you write HTML-like markup inside a JavaScript file."_
 
-You can still write vanilla Javascript to create a div or to add a title to your component, but what JSX allows you to do is to continue using the HTML markup we know, adding the hability to display dynamic content. That said JSX is not HTML, but rather it allows you to write HTML into a Javascript file, with a few more rules.
+You can still write vanilla Javascript to create a div or to add a title to your component, but what JSX allows you to do is to continue using the HTML markup we know, adding the ability to display dynamic content. That said JSX is not HTML, but rather it allows you to write HTML into a Javascript file, with a few more rules.
 
-1. **Return a single root element:** All elements from a component, must be wraped in a single parent tag. You can use an empty tag to avoid using unnesesary tags in your markup.
+1. **Return a single root element:** All elements from a component, must be wrapped in a single parent tag. You can use an empty tag to avoid using unnecessary tags in your markup.
 
 ```javascript
 <>
@@ -136,7 +138,7 @@ You can still write vanilla Javascript to create a div or to add a title to your
 
 3. **camelCase most things:** Because of Javascript limitations in variable names or reserved words like 'class', attribute names must be in camelCase and 'class' should be replaced with 'className'.
 
-> _Note:_ Only aria-_ and data-_ attributes are written with dashes, as in HTML.
+> _Note:_ Only [aria](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA) and [data](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/data-*) attributes are written with dashes (e.g., aria-label), as in HTML.
 
 But the magic of JSX lies in the fact that even within your markup you can write JavaScript code. you may need to add logic or reference a dynamic property, and for that purpose you can use curly braces and open a JavScript window in your code.
 
@@ -163,13 +165,13 @@ You can only use curly braces in two ways inside JSX:
 src = { name };
 ```
 
-> _Note:_ If you wiss to pass in a JavaScript object you can use double cursly braces, which is no special syntax, it’s just a JavaScript object tucked inside JSX curly braces.
+> _Note:_ If you wish to pass in a JavaScript object you can use double curly braces, which is no special syntax, it’s just a JavaScript object tucked inside JSX curly braces.
 
 ## Props
 
 ### What are props?
 
-We've been mentioning how React components are ment to be reusable, but what does that really implies? Let's look a the following example:
+We've been mentioning how React components are meant to be reusable, but what does that really implies? Let's look a the following example:
 
 ```javascript
 function Card() {
@@ -182,7 +184,7 @@ function Card() {
 }
 ```
 
-This is a valid React component, it can be imported into other compontents and be reused. But let's look at the output of doing so:
+This is a valid React component, it can be imported into other components and be reused. But let's look at the output of doing so:
 
 ```javascript
 function Card() {
@@ -206,12 +208,12 @@ export default function App() {
 }
 ```
 
-If you ran the code, then you undestand that we now have a problem: Our list of characters only includes Jhon Snow!
+If you ran the code, then you understand that we now have a problem: Our list of characters only includes Jhon Snow!
 So you may be tempted to create a new component that returns, say Daenarys Targaryen, and then another for Jamie Lannister and so on. However you will have to copy paste all the styles and logic only to change the name of the character that's returned. Our component displays only static data and this goes against the idea of reusability.  
 A better approach to this would be to use the same _Card_ component and make the name of the character dynamic, and that's where **Props** come in.  
-Props are the way React components comunicate with each other. Through them, parents can pass **any Javascript value** to a child component.
+Props are the way React components communicate with each other. Through them, parents can pass **any Javascript value** to a child component.
 
-JSX tags can recive any of the [HTML standard](https://html.spec.whatwg.org/multipage/embedded-content.html#the-img-element) predefined props with information. However your custom components can recive any type of data through props.
+JSX tags can receive any of the [HTML standard](https://html.spec.whatwg.org/multipage/embedded-content.html#the-img-element) predefined props with information. However your custom components can receive any type of data through props.
 
 In the following code the parent component _App_ is passing "name" props to the _Card_ child component.
 
@@ -241,7 +243,7 @@ export default function App() {
 Any parent component can pass props to it's children, and they can be any Javascript value. To do so you can add them as properties in the JSX code, similar to HTML tag properties.
 
 **Reading props**  
-In the child component properties will be recieved in a Javascript object and they must be passed as a parameter in the function. As a convetion we use the word _props_.
+In the child component properties will be received in a Javascript object and they must be passed as a parameter in the function. As a convention we use the word _props_.
 
 ```javascript
 function Card(props) {
@@ -271,8 +273,8 @@ export default function App() {
 
 _Exercise:_ Try running the code and add a console.log(props) in the line above the return. Check what was logged in the console, then try changing the word "props" for any word, has the log in the console changed?
 
-You may have noticed we removed the curly braces around the _props_ parameter. This is because we recieve the object and then access its properties with the dot operator.  
-Another posibility is to use [destructuring for the object](https://www.freecodecamp.org/news/destructuring-patterns-javascript-arrays-and-objects/) in the following way:
+You may have noticed we removed the curly braces around the _props_ parameter. This is because we receive the object and then access its properties with the dot operator.  
+Another possibility is to use [destructuring for the object](https://www.freecodecamp.org/news/destructuring-patterns-javascript-arrays-and-objects/) in the following way:
 
 ```javascript
 function Card({ name, house, age }) {
@@ -305,7 +307,7 @@ export default function App() {
 ### Props default value
 
 React allows you to set a **default value** to fall back on when none is specified. To do so, use destructuring and add a value using the assignment operator.  
-If no value is provided or the value is undefined for that propertie, then the default value will be used. If you want to avoid setting the default, but don't want to pass any value, you can set it to _0_ or _null_.
+If no value is provided or the value is undefined for that property, then the default value will be used. If you want to avoid setting the default, but don't want to pass any value, you can set it to _0_ or _null_.
 
 ```javascript
 function Card({ name, house, age = 50 }) {
@@ -335,7 +337,7 @@ export default function App() {
 
 ### Props as children
 
-If your intention is to nest content in a JSX tag, you can pass props and the child component will recieve the content in the _children_ propertie.
+If your intention is to nest content in a JSX tag, you can pass props and the child component will receive the content in the _children_ property.
 
 ```javascript
 function Form(props) {
@@ -368,7 +370,7 @@ export default function App() {
 }
 ```
 
-> _Note:_ Props are inmutable! They cannot be changed. However you may need to change a prop value, to do so the parent component will need to pass new props (different props) and the old ones will be discarded. This is handeled through _State_, and will learn more about that soon.
+> _Note:_ Props are immutable! They cannot be changed. However you may need to change a prop value, to do so the parent component will need to pass new props (different props) and the old ones will be discarded. This is handled through _State_, and will learn more about that soon.
 
 ## Class based components
 

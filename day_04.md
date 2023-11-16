@@ -2,20 +2,21 @@
 
 ## DAY 4
 
-- [DAY 4](#day-4)
+- [A walk in React](#a-walk-in-react)
+  - [DAY 4](#day-4)
   - [Rendering Techniques](#rendering-techniques)
-    - [Conditional rendering](#conditional-rendering)
+    - [Conditional Rendering](#conditional-rendering)
     - [Rendering lists](#rendering-lists)
-      - [Renderdin data from arrays](#rendering-data-from-arrays)
-      - [Filtering data](#filtering-data)
-      - [Key prop](#key-prop)
+    - [Renderdin data from arrays](#renderdin-data-from-arrays)
+    - [Filtering data](#filtering-data)
+    - [Key prop](#key-prop)
   - [Styling React components](#styling-react-components)
     - [Inline style](#inline-style)
     - [CSS stylesheet](#css-stylesheet)
+    - [Dynamic styles (CSS-in-JS)](#dynamic-styles-css-in-js)
     - [CSS modules](#css-modules)
-    - [Dynamic styles](#dynamic-styles)
   - [Events](#events)
-    - [Event handlers](#Event-handlers)
+    - [Event handlers](#event-handlers)
 
 ## Rendering Techniques
 
@@ -117,13 +118,13 @@ export default function Example() {
 
 Run the code and try changing the value of counter. If _counter_ is 0 then the h1 tag will not be evaluated and the operator returns 0 (the first falsy condition).
 
-A good rule of thumb regarding conditional rendering of components in Recat could be to use a ternary operator when you need to choose between one or the other (wheater is a component, class or element) and the AND operator to check wheather a component is render or not.
+A good rule of thumb regarding conditional rendering of components in React could be to use a ternary operator when you need to choose between one or the other (weather is a component, class or element) and the AND operator to check weather a component is render or not.
 But still they are all valid options and it's best to decide what fits better in each scenario, and attempting to be consistent in the its use throughout the project.
 
 ### Rendering lists
 
 Whilst creating your React app you will often need to display lists of data, or simply rendering the same component multiple times with different props.
-To achive this you can use Javascript mapping function and create JSX code on each element you map.
+To achieve this you can use Javascript mapping function and create JSX code on each element you map.
 
 ### Renderdin data from arrays
 
@@ -178,7 +179,7 @@ export default function TravelList() {
 }
 ```
 
-> What happenes if you add or remove an element from the list?
+> What happens if you add or remove an element from the list?
 
 As a result of using the map method we get cleaner code and a more efficient way of displaying data.
 
@@ -243,7 +244,7 @@ export default function TravelList() {
 
 ### Key prop
 
-When you ran the exaples above you most likely noticed an error in the Console:
+When you ran the examples above you most likely noticed an error in the Console:
 
 > Warning: Each child in a list should have a unique “key” prop.
 
@@ -310,15 +311,15 @@ In the container div where we map the filtered cities we added the _key_ propert
 
 ## Styling React components
 
-There are many ways you can style your react components, and whilst React doesn't officially recommend a specific one, we will go over some of the most popular methods used and some of the pros and cons of each of them. These methods can be used simultaneously, but they may interfiere whith one another so it's important to plan ahead and document your styling choices.
+There are many ways you can style your react components, and whilst React doesn't officially recommend a specific one, we will go over some of the most popular methods used and some of the pros and cons of each of them. These methods can be used simultaneously, but they may interfere with one another so it's important to plan ahead and document your styling choices.
 
-> _Note:_ Remember that ultimately we are always writing CSS, the difference lies in the aproaches we take.
+> _Note:_ Remember that ultimately we are always writing CSS, the difference lies in the approaches we take.
 
 ### Inline style
 
 ---
 
-React supports inline styling with JSX. You can add the style property in the tag and write the styles inside a Javascript object. The keys should be written using camelCase, and the values if they are pixels you can use numbers, but if you need to specify the mesurement unit such as 'rem' or 'vh' the value mus be a string.
+React supports inline styling with JSX. You can add the style property in the tag and write the styles inside a Javascript object. The keys should be written using camelCase, and the values if they are pixels you can use numbers, but if you need to specify the measurement unit such as 'rem' or 'vh' the value mus be a string.
 
 > _Note:_ Remember that JSX uses the curly braces to evaluate Javascript expressions so the syntax will be {{}}.
 
@@ -334,7 +335,7 @@ export default function Card() {
 }
 ```
 
-To improve upon the code readbility you can always extract the JS object.
+To improve upon the code readability you can always extract the JS object.
 
 ```javascript
 const cardStyles = {
@@ -362,7 +363,7 @@ _Pros_
 - Scoped styles
 - Easy to apply dynamic styling
 - It avoids styles specificity conflicts as the styles are applied to a specific tag in separate components.
-- It's easy to get rid of dead code, since it's in smaller files witrh lees lines to go through.
+- It's easy to get rid of dead code, since it's in smaller files with less lines to go through.
 
 _Cons_
 
@@ -370,14 +371,14 @@ _Cons_
 - Losing access to media queries, keyframe animations, pseudo selectors.
 - No cascading capabilities.
 
-Inline styling is not recommended as the primary means of styling projects, it's lower preformant than adding classes and it decreases the readibily of the code.
+Inline styling is not recommended as the primary means of styling projects, it's lower performant than adding classes and it decreases the readaibily of the code.
 
 ### CSS stylesheet
 
 ---
 
-A more preformant option is adding a stylesheet by creating a new .css file in your proyect directory and importing it into the application.
-This approach possibly the most accesible one since all front end developers know how to write CSS so there is really no new tool to learn, and it requires no dependencies since it has native browser support. Still you may run into issues if your proyect is of medium or large sacel or if you are collaborating with other developers.  
+A more performant option is adding a stylesheet by creating a new .css file in your project directory and importing it into the application.
+This approach possibly the most accessible one since all front end developers know how to write CSS so there is really no new tool to learn, and it requires no dependencies since it has native browser support. Still you may run into issues if your project is of medium or large scael or if you are collaborating with other developers.  
 In order to add classes to a component you must use _className_, since class is a Javascript reserved word.
 
 ```javascript
@@ -398,41 +399,41 @@ export default function Card() {
 
 - It's easy and fast to implement.
 - Known CSS syntax.
-- You can configure your bundle to use preprocessors like SASS or LESS.
+- You can configure your bundle to use pre-processors like SASS or LESS.
 
-But CSS in it's conception was ment to style a particular HTML document and not diferent components in the same application. the styles get imported into the HTML head tag and that brings the following consecuences:
+But CSS in it's conception was meant to style a particular HTML document and not different components in the same application. the styles get imported into the HTML head tag and that brings the following consequences:
 
 **Cons**
 
-- The scope of the styles is global and as the proyect grows in scope the styles interfiere with one another.
+- The scope of the styles is global and as the project grows in scope the styles interfere with one another.
 - Dead code elimination becomes more difficult as files grow in sizes.
-- Even when creating several css files they will all get budled up into the same global scope.
+- Even when creating several css files they will all get builed up into the same global scope.
 
-In order to avoid this you can use some work arounds like [BEM Naming convention](<https://en.bem.info/methodology/naming-convention/#:~:text=%2D%2Dmod%2Dval-,Names%20are%20written%20in%20lowercase%20Latin%20letters.,a%20double%20hyphen%20(%20%2D%2D%20).>) whose purpose is to give names meaning so that they are as informative as possible for the developer and at the same time it avoids clas names colliding with each other.
+In order to avoid this you can use some workarounds like [BEM Naming convention](<https://en.bem.info/methodology/naming-convention/#:~:text=%2D%2Dmod%2Dval-,Names%20are%20written%20in%20lowercase%20Latin%20letters.,a%20double%20hyphen%20(%20%2D%2D%20).>) whose purpose is to give names meaning so that they are as informative as possible for the developer and at the same time it avoids class names colliding with each other.
 
 ### Dynamic styles (CSS-in-JS)
 
 ---
 
-This styling method can be achived using libraries like: [JSS](https://cssinjs.org/?v=v10.10.0), [Emotion](https://emotion.sh/docs/introduction), [Styled components](https://styled-components.com/) or many others.
+This styling method can be achieved using libraries like: [JSS](https://cssinjs.org/?v=v10.10.0), [Emotion](https://emotion.sh/docs/introduction), [Styled components](https://styled-components.com/) or many others.
 
-At there core this libraries allow us to use CSS in our React components, achiving a component with styling within the same file. They implement it differently so each one has specific documentation.
+At there core this libraries allow us to use CSS in our React components, achieving a component with styling within the same file. They implement it differently so each one has specific documentation.
 
 **Pros**
 
 - Scope styling to specific components.
-- Acces to pseudo selectors, media queries and animations.
-- Easy to achive dynamic styling based on the state of the application.
+- Access to pseudo selectors, media queries and animations.
+- Easy to achieve dynamic styling based on the state of the application.
 - Some of the use CSS syntax.
-- Some have pre built patterns wich solve common problems like aplication theming.
+- Some have pre built patterns which solve common problems like application theming.
 
 **Cons**
 
-- Styles need to be loaded, parsed and exceuted at runtime which makes it slower and increses the time-to-action.
+- Styles need to be loaded, parsed and executed at runtime which makes it slower and increases the time-to-action.
 - Styles are defined in the same component file. (Though this is personal preference)
 - Need to learn new syntax.
 
-This styling method is agood approach, but it may affect the preformance of your application. Here are some articles on the matter if you wish to learn more about it, but keep in mind it will all depend on many factors, and it's always a matter of finding the right tool for each particular proyect.
+This styling method is a good approach, but it may affect the performance of your application. Here are some articles on the matter if you wish to learn more about it, but keep in mind it will all depend on many factors, and it's always a matter of finding the right tool for each particular project.
 
 [CSS vs CSS-in-JS Performance](https://medium.com/@pitis.radu/css-vs-css-in-js-performance-bcbdf8e1f6ff)  
 [Why We're Breaking Up with CSS-in-JS](https://dev.to/srmagura/why-were-breaking-up-wiht-css-in-js-4g9b)
@@ -457,14 +458,14 @@ const Button = () => {
 };
 ```
 
-> _Note:_ You can use the dot notation to access Javascript object keys. In the example above _styles_ is the object the styles are bundeled to.
+> _Note:_ You can use the dot notation to access Javascript object keys. In the example above _styles_ is the object the styles are bundled to.
 
 **Pros:**
 
-- No preformance impact.
+- No performance impact.
 - Scoped styles.
 - CSS syntax.
-- Supports preprocessors.
+- Supports pre-processors.
 - Easy to eliminate dead code, since they are all in separate files.
 
 **Cons:**
@@ -473,7 +474,7 @@ const Button = () => {
 - CamelCase naming for CSS classes.
 - Sharing styles between components and/or with global styles can be difficult.
 
-This is a frecuently used approach with great benefits and little downsides.
+This is a frequently used approach with great benefits and little downsides.
 
 ## Events
 

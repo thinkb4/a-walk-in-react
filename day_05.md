@@ -2,13 +2,14 @@
 
 ## DAY 5
 
-- [DAY 5](#day-5)
+- [A walk in React](#a-walk-in-react)
+  - [DAY 5](#day-5)
   - [Forms in React](#forms-in-react)
   - [React Context API](#react-context-api)
     - [createContext](#createcontext)
     - [useContext](#usecontext)
     - [Context Provider](#context-provider)
-  - [Global State Managment](#global-state-management)
+  - [Global State Management](#global-state-management)
 
 ## Forms in React
 
@@ -92,11 +93,11 @@ In React, you will often find yourself transferring data from a parent component
 
 > Passing props is a great way to explicitly pipe data through your UI tree to the components that use it.
 > But passing props can become verbose and inconvenient when you need to pass some prop deeply through the tree, or if many components need the same prop. The nearest common ancestor could be far removed from the components that need data, and lifting state up that high can lead to a situation called “prop drilling”.
-> Source: [React Oficial Documentation](https://react.dev/learn/passing-data-deeply-with-context)
+> Source: [React Official Documentation](https://react.dev/learn/passing-data-deeply-with-context)
 
 Context allows the parent component to share specific information with any component in its component tree, regardless of how deeply nested they are, without the need to pass it explicitly through props. By utilizing context, you can simplify the process of accessing shared data and eliminate the verbosity and inconvenience associated with passing props extensively.
 
-Let's see an example from [React Oficial Documentation](https://react.dev/):
+Let's see an example from [React Official Documentation](https://react.dev/):
 
 ### createContext
 
@@ -146,7 +147,7 @@ function Form() {
 It doesn’t matter how many layers of components there are between the provider and the Button. When a Button anywhere inside of Form calls useContext(ThemeContext), it will receive "dark" as the value.
 
 > useContext() always looks for the closest provider above the component that calls it. It searches upwards and does not consider providers in the component from which you’re calling useContext().
-> Source: [React Oficial Documentation](https://react.dev/reference/react/useContext#usage)
+> Source: [React Official Documentation](https://react.dev/reference/react/useContext#usage)
 
 Wrap your components into a context provider to specify the value of this context for all components inside:
 
@@ -163,7 +164,7 @@ function MyPage() {
 ```
 
 > value: The value that you want to pass to all the components reading this context inside this provider, no matter how deep. The context value can be of any type. A component calling useContext(SomeContext) inside of the provider receives the value of the innermost corresponding context provider above it.
-> Source: [React Oficial Documentation](https://react.dev/reference/react/createContext#provider)
+> Source: [React Official Documentation](https://react.dev/reference/react/createContext#provider)
 
 To update context, combine it with state. Declare a state variable in the parent component, and pass the current state down as the context value to the provider.
 

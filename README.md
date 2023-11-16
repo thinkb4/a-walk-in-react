@@ -2,7 +2,7 @@
 
 ## Table Of Contents
 
-## DAY 01
+## [DAY 01](./day_01.md)
 
 - Introduction of React
   - What is ReactJS?
@@ -15,7 +15,7 @@
   - Recommended extensions for VSCode
 - Create-react-app(CRA) vs Vite
 
-## DAY 02
+## [DAY 02](./day_02.md)
 
 - Components
   - My first component
@@ -28,7 +28,7 @@
 - Class Based Components (legacy)
   - Class based vs Functional components
 
-## DAY 03
+## [DAY 03](./day_03.md)
 
 - Hooks
   - What is a Hook
@@ -51,7 +51,7 @@
   - Dependencies
   - The useEffect Cleanup function
 
-## DAY 4
+## [DAY 4](./day_04.md)
 
 - Rendering Techniques
   - Conditional rendering
@@ -67,7 +67,7 @@
 - Events
   - Listening to event handlers
 
-## DAY 5
+## [DAY 5](./day_05.md)
 
 - Forms in React
 - React Context API
@@ -76,7 +76,7 @@
   - Context provider
 - Global State Management
 
-## DAY 6
+## [DAY 6](./day_06.md)
 
 - Other React built-in hooks
   - useRef
@@ -89,7 +89,7 @@
   - How to create them
   - How to use them
 
-## DAY 7
+## [DAY 7](./day_07.md)
 
 - React Router Library
   - Installing React Router
@@ -99,7 +99,7 @@
   - Dynamic routes
   - Protected routes
 
-## DAY 8
+## [DAY 8](./day_08.md)
 
 - Debugging React apps
   - React DevTools

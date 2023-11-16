@@ -2,27 +2,26 @@
 
 ## DAY 3
 
-- [DAY 3](#day-3)
+- [A walk in React](#a-walk-in-react)
+  - [DAY 3](#day-3)
   - [Hooks](#hooks)
-    - [What is a Hook](#what-is-a-hook)
-    - [Hook Rules](#hook-rule)
-- [State](#state)
-  - [useState Hook](#useState-hook)
-  - [What does the useState call do?](#what-does-the-useState-call-do)
-  - [What do we pass to useState as an argument?](#what-do-we-pass-to-useState-as-an-argument)
-  - [When to use it?](#when-to-use-it)
-  - [Import useState](#import-usestate)
-  - [Initialize useState](#initialize-usestate)
-  - [Read State](#update-state)
-  - [Update State](#update-state)
-  - [What Can State Hold](#what-can-state-hold)
-  - [Updating Objects and Arrays in State](#updating-objects-and-arrays-in-state)
-- [Effects](#effects)
-  - [useEffect Hook](#useEffect-hook)
-  - [What are side effects](#what-are-side-effects)
-  - [When to use it](#when-to-use-it)
-  - [Dependencies](#dependencies)
-  - [The useEffect Cleanup function](#the-useEffect-cleanup)
+    - [What is a Hook?](#what-is-a-hook)
+    - [Hook Rules](#hook-rules)
+  - [useState Hook](#usestate-hook)
+    - [What does the useState call do?](#what-does-the-usestate-call-do)
+    - [What do we pass to useState as an argument?](#what-do-we-pass-to-usestate-as-an-argument)
+    - [When to use it?](#when-to-use-it)
+    - [Import useState](#import-usestate)
+    - [Initialize useState](#initialize-usestate)
+    - [Read State](#read-state)
+    - [Update State](#update-state)
+    - [Updating Objects and Arrays in State](#updating-objects-and-arrays-in-state)
+  - [useEffect Hook](#useeffect-hook)
+    - [What are side effects](#what-are-side-effects)
+    - [How to use it](#how-to-use-it)
+    - [Dependencies](#dependencies)
+    - [When to use it](#when-to-use-it-1)
+    - [The useEffect Cleanup function](#the-useeffect-cleanup-function)
 
 ## Hooks
 
@@ -67,7 +66,7 @@ Summary:
 - React will remember its current value between re-renders, and will return the most recent value to our function.
 - If we want to update the current counter value, we can call setCounter.
 - When the user clicks, we call setCounter with a new value. React will then update the Counter component by passing it the new counter value.
-- Note the square brackets are Javascript intaxes, it's called “array destructuring”.
+- Note the square brackets are Javascript indexes, it's called “array destructuring”.
 
 ### When to use it?
 
@@ -269,7 +268,7 @@ We then return an object, spreading the previousState and overwriting only the c
 
 ## useEffect Hook
 
-React works with the DOM to render a UI into the page, we can use JSX to create elements and we've learned how to manage their state with useState. But every time React needs to interact with anything that is outside of it's reach, we can use [the _Effect_ hook](https://react.dev/learn/synchronizing-with-effects). Effect allows to run code after the component has rendered so it can be sincronized with an outside systems.
+React works with the DOM to render a UI into the page, we can use JSX to create elements and we've learned how to manage their state with useState. But every time React needs to interact with anything that is outside of it's reach, we can use [the _Effect_ hook](https://react.dev/learn/synchronizing-with-effects). Effect allows to run code after the component has rendered so it can be synchronized with an outside systems.
 
 It's important to remember that as each render has it's own props, state and eventListeners, each render has it's own `Effect`, and because they run after every render, they are a part of the component output, and access it's props and state.  
 You can follow [this link](https://overreacted.io/a-complete-guide-to-useeffect/) for a more in depth look at the Effect hook written by Dan Abramov, one of the core contributors to React.
@@ -279,7 +278,7 @@ You can follow [this link](https://overreacted.io/a-complete-guide-to-useeffect/
 ---
 
 React components should be kept [_pure_](https://react.dev/learn/keeping-components-pure), the render function in a component should calculate a result and generate and output, but not do anything else.  
-React is expecting all your components to be written as pure functions, this implies that you mustn't change any objects or variables that existed before rendering, as to not make the component _impure_ and introduce many side effects that could cause bugs and unpredicatble behaviour.
+React is expecting all your components to be written as pure functions, this implies that you mustn't change any objects or variables that existed before rendering, as to not make the component _impure_ and introduce many side effects that could cause bugs and unpredictable behavior.
 
 **Side effects** are anything that is outside of Reacts reach, it could be API/database interaction, using the browser's localStorage or setting up a server connection, in any case they
 `cannot happen during render` and so the **Effect** allows you to specify code that will run after a render, and it's side effects will be caused by the rendering and not by a particular event (like a user clicking a button).
@@ -326,7 +325,7 @@ export default function App() {
 }
 ```
 
-In the example above our useEffect hook is making an API call to retrieve a character from Star Wars. Paste the code into your proyect and check the console's output.
+In the example above our useEffect hook is making an API call to retrieve a character from Star Wars. Paste the code into your project and check the console's output.
 
 As you can see we added a [console.log](https://developer.mozilla.org/en-US/docs/Web/API/console/log) that will let us know when the component is being render, and that keeps printing into the console because the component is re rendering on a loop. Try commenting the useEffect function.
 
@@ -336,7 +335,7 @@ This happens because of out missing **second parameter**, the array dependencies
 
 ---
 
-We mention before that the second parameter is optional, however you will see that it will be necesary in most cases.
+We mention before that the second parameter is optional, however you will see that it will be necessary in most cases.
 
 The dependencies array determines when the Effect hook will run, if it has no dependencies it will only run once after the initial render. Otherwise it will look out for any changes between one render and the other, and compare the dependencies declared in the array, if they don't match useEffect reruns.
 
@@ -400,16 +399,16 @@ Remember: The _Effect_ hook is typically used to access **external** systems lik
 As general guide you don't need Effect:
 
 - When you want to **transform data for rendering**. You can do so at the top level of your component and the code will re-run whenever the props or state changes.
-- When you need to handle user events. by the time the Effect runs, you will no longer know what event the user triggered. User events should be handeled by the corresponding event handelers.
+- When you need to handle user events. by the time the Effect runs, you will no longer know what event the user triggered. User events should be handled by the corresponding event handlers.
 
 ### The useEffect Cleanup function
 
 ---
 
-When using Effect it's important to _clean up_ (or undo) after the consecuences of the side effects our hook causes, preventing unwanted behaviour and optimizing our application's prefomance.
+When using Effect it's important to _clean up_ (or undo) after the consequences of the side effects our hook causes, preventing unwanted behavior and optimizing our application's performance.
 
 In order to do so, your _Effect_ function can return a function that will clean up any effects caused by the hook running.  
-React will then call your cleanup function each time before the Effect runs again, and one final time when the component gets removed, cleanning up effects from the previous render before running the effects again.
+React will then call your cleanup function each time before the Effect runs again, and one final time when the component gets removed, cleaning up effects from the previous render before running the effects again.
 
 **Example:**
 

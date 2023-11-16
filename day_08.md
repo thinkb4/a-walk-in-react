@@ -2,21 +2,26 @@
 
 ## DAY 8
 
-- [DAY 8](#day-8)
+- [A walk in React](#a-walk-in-react)
+  - [DAY 8](#day-8)
   - [Debugging React apps](#debugging-react-apps)
     - [React DevTools](#react-devtools)
   - [Testing React apps](#testing-react-apps)
     - [Different kinds of tests](#different-kinds-of-tests)
+      - [**Unit tests**](#unit-tests)
+      - [**Integration tests**](#integration-tests)
+      - [**End-to-end tests**](#end-to-end-tests)
     - [Tools](#tools)
     - [Writing our first test](#writing-our-first-test)
+      - [Grouping tests in a suite](#grouping-tests-in-a-suite)
     - [Testing Asynchronous Code](#testing-asynchronous-code)
     - [Working with mocks](#working-with-mocks)
   - [Deploying React apps](#deploying-react-apps)
     - [Steps](#steps)
-      1. [Test and optimize your code](#1-test-and-optimize-your-code)
-          - [Lazy loading](#lazy-loading)
-      2. [Build the Application](#2-build-the-application)
-      3. [Deploy to server](#3-deploy-to-server)
+    - [1. Test and optimize your code](#1-test-and-optimize-your-code)
+    - [Lazy loading](#lazy-loading)
+    - [2. Build the Application](#2-build-the-application)
+    - [3. Deploy](#3-deploy)
 
 ## Debugging React apps
 
@@ -83,15 +88,15 @@ As we write our code we can run and preview our application. We get to see what 
 
 There are many [types of tests](https://www.geeksforgeeks.org/types-software-testing/) that can be run in order to ensure our code is working properly, is efficient, clean, and optimized. For the purpose of this course, we will focus on the most common test for React applications.
 
-**Unit tests**
+#### **Unit tests**
 
 Running tests in the smaller possible units of code from our application. It implies testing individual blocks of code (functions, components) in isolation. Unit tests will assert the expected input to a function that matches the expected output. They are easy to implement in a React project and there are several tools that we can use to run them.
 
-**Integration tests**
+#### **Integration tests**
 
 Integration tests verify that the combination of multiple building blocks is working correctly. They focus mainly on the flow o data between different modules. Integration tests deal with mocking these 3rd party dependencies and asserting the code interfacing with them behaves as expected.
 
-**End-to-end tests**
+#### **End-to-end tests**
 
 End-to-end tests cover the user journey through a specific path in our application. An End2End test plan can be something like "user can add items to cart" or "user can change password". they capture and replay the user's actions and can provide knowledge as to whether a user will have a bug-free experience when performing a specific task.
 
