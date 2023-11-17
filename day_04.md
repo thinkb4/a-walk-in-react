@@ -118,7 +118,7 @@ export default function Example() {
 
 Run the code and try changing the value of counter. If _counter_ is 0 then the h1 tag will not be evaluated and the operator returns 0 (the first falsy condition).
 
-A good rule of thumb regarding conditional rendering of components in React could be to use a ternary operator when you need to choose between one or the other (weather is a component, class or element) and the AND operator to check weather a component is render or not.
+A good rule of thumb regarding conditional rendering of components in React could be to use a ternary operator when you need to choose between one or the other (wheather is a component, class or element) and the AND operator to check wheather a component is render or not.
 But still they are all valid options and it's best to decide what fits better in each scenario, and attempting to be consistent in the its use throughout the project.
 
 ### Rendering lists
