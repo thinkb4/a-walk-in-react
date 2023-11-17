@@ -2,14 +2,15 @@
 
 ## DAY 7
 
-- [DAY 7](#day-7)
-    - [React Router Library](#react-router-library)
-        - [Installing React Router](#installing-react-router)
-        - [Defining routes](#defining-routes)
-        - [Navigate between routes](#navigating)
-        - [Error pages](#error-pages)
-        - [Dynamic routes](#dynamic-routes)
-        - [Protected routes](#protected-routes)
+- [A walk in React](#a-walk-in-react)
+  - [DAY 7](#day-7)
+  - [React Router Library](#react-router-library)
+  - [Installing React Router](#installing-react-router)
+  - [Defining Routes](#defining-routes)
+  - [Navigate between routes](#navigate-between-routes)
+  - [Error Pages](#error-pages)
+  - [Dynamic Routing](#dynamic-routing)
+  - [Protected Routes](#protected-routes)
 
 ## React Router Library
 
@@ -64,11 +65,12 @@ After we have imported all the components that React Router provides us let's st
     }
 
 ````
-Let's assume we just opened our app and the browser shows "https://www.yourAppDomain.com/" the route that matches with the current url is the third one, consecuentelly, `<Home/>` component will be rendered.  
+
+Let's assume we just opened our app and the browser shows "[https://www.yourAppDomain.com/](https://www.yourAppDomain.com/)" the route that matches with the current url is the third one, consecuentelly, `<Home/>` component will be rendered.  
 
 ## Navigate between routes
 
-React Router provides a <Link> component to create links in your application. Wherever you render a `<Link>`, an anchor (`<a>`) will be rendered in your HTML document. This component behaves like an ordinary <a>, it will redirect you to the route that's passed as a prop `to`. Let's see the example below. We we can pass other parameters to make the url to behave dynamically, we'll see it later on this day.
+React Router provides a `<Link>` component to create links in your application. Wherever you render a `<Link>`, an anchor (`<a>`) will be rendered in your HTML document. This component behaves like an ordinary `<a>`, it will redirect you to the route that's passed as a prop `to`. Let's see the example below. We we can pass other parameters to make the url to behave dynamically, we'll see it later on this day.
 
 ````javascript
 import {BrowserRouter as Router, Switch,Route, Link} from "react-router-dom";
@@ -112,6 +114,7 @@ export default App(){
     }
 
 ````
+
 ## Error Pages
 
 Sometimes there is a chance that the user types an url that does not correspond to a `<Route>` element defined within our `<Switch/>` or maybe some error happened and the route does not exist. As a developers, we must handle this situation. The most common solution to this problem is to create a `<NotFound>` page and implement the component as it shows below.
@@ -151,11 +154,12 @@ export default App(){
     }
 
 ````
-By adding an `*` to the prop `path` we tell the `<Route>` component that every URL that the browser shows it's a match, but we don't want to show this error page every time, that's why we add it below the other `<Route>` elements. If we don't have any route match, it will show us the `<NotFound>` page. 
+
+By adding an `*` to the prop `path` we tell the `<Route>` component that every URL that the browser shows it's a match, but we don't want to show this error page every time, that's why we add it below the other `<Route>` elements. If we don't have any route match, it will show us the `<NotFound>` page.
 
 ## Dynamic Routing
 
-Let's assume that we have a typical e-commerce with over 1000 products, we're gonna have to create a link for each product? Nope, that's where Dynamic Routing comes to save our time by making this task really easy. 
+Let's assume that we have a typical e-commerce with over 1000 products, we're gonna have to create a link for each product? Nope, that's where Dynamic Routing comes to save our time by making this task really easy.
 
 First of All, we're gonna need to define our routes to handle dynamic routing. Let's get back to the e-commerce example and mix it with the example that's on top.
 
@@ -197,6 +201,7 @@ export default App(){
     }
 
 ````
+
 Below the path `/` we added another route called `/products/:id` here, by defining an `:id` we're telling React Router that this route is dynamic, and the attribute that comes after the `/products/` can be picked up from another function that react router provides us (we'll jump on that later on). 
 
 ````javascript
@@ -215,7 +220,7 @@ export default ProductCard({ title, id, price }){
 
 ````
 
-On a typical e-commerce we'll have a card that shows the main product specifications (the product name and his respective price in this case) and it will redirect us to a bigger product page with other specifications and a bigger description. This card takes as props the `title`, `path` and `price` of the product. What we need to do here is to redirect the user to the specific product page that will show him more info about it. 
+On a typical e-commerce we'll have a card that shows the main product specifications (the product name and his respective price in this case) and it will redirect us to a bigger product page with other specifications and a bigger description. This card takes as props the `title`, `path` and `price` of the product. What we need to do here is to redirect the user to the specific product page that will show him more info about it.
 
 ````javascript
 import { useParams } from "react-router-dom";
@@ -241,8 +246,8 @@ export default ProductPage(){
     }
 
 ````
-The `useParams` hook returns an object of key/value pairs of the dynamic params from the current URL that were matched by the `<Route path>` thanks to the `useParams` hook that React Router provides us, we can catch the parameter `id` that comes within the product URL, and with this id we can make a simple API call to get data to our component with a little bit of help from the `useState` and `useEffect` hooks also.
 
+The `useParams` hook returns an object of key/value pairs of the dynamic params from the current URL that were matched by the `<Route path>` thanks to the `useParams` hook that React Router provides us, we can catch the parameter `id` that comes within the product URL, and with this id we can make a simple API call to get data to our component with a little bit of help from the `useState` and `useEffect` hooks also.
 
 ## Protected Routes
 
@@ -292,7 +297,8 @@ Sometimes our application will have certain pages that are not allowed for every
         )
     }
 `````
-In the example above, we're mapping the routes object and doing some conditional rendering for checking if the route is private or not, all the logic involved will be described in the `PrivateRoute` component. 
+
+In the example above, we're mapping the routes object and doing some conditional rendering for checking if the route is private or not, all the logic involved will be described in the `PrivateRoute` component.
 
 `````javascript
     import { useContext } from 'react';
@@ -306,4 +312,5 @@ In the example above, we're mapping the routes object and doing some conditional
     return isAuth ? element : <Navigate to="/login" />;
     }
 `````
+
 Here is a example of the logic involved in a protected route component, we're consuming a function that is telling us if the user is authenticated or not, which in this case comes from an Authentication Context. If the user is authenticated, we'll show the element that we passed as props on `App.jsx` if the user is not authenticated, we will redirect it to the login page in order to make the user login or register.

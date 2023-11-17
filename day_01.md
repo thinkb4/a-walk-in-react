@@ -10,7 +10,7 @@
     - [What does it mean to be declarative?](#what-does-it-mean-to-be-declarative)
   - [Setup](#setup)
     - [Requirements](#requirements)
-    - [Create-react-app](#create-react-app)
+    - [Create React App](#create-react-app)
     - [Vite](#vite)
     - [Recommended extensions for VSCode](#recommended-extensions-for-vscode)
   - [Create-react-app(CRA) vs Vite](#create-react-appcra-vs-vite)
@@ -53,9 +53,10 @@ element.innerHTML = "Hello, world";
 
 ### Requirements
 
-- **NodeJS**: Is an open source, cross-platform runtime environment for (but not limited to) the server layer based on the JavaScript programming language.
+- **NodeJS**: Is an open source, cross-platform runtime environment for (but not limited to) the server layer based on the JavaScript programming language. 
+For this training we suggest to use [Node v18.x](https://nodejs.org/docs/latest-v18.x/api/synopsis.html); you can install it using a [Package Manager](https://nodejs.org/en/download/package-manager/) or downloading the binaries from the [official website](https://nodejs.org/en/about/previous-releases).
 
-- **NPM** (Node Package Manager): Is a package manager developed entirely under the JavaScript language by Isaac Schlueter, through which we can obtain any library with just a simple line of code, which will allow us to add dependencies in a simple way, distribute packages and efficiently manage both the modules and the project to be developed in general. There are other package managers like **YARN** and **PNPM**.
+- **NPM** (Node Package Manager): **Note: it comes with the Node installation, you don't need to install it separately.** Is a package manager developed entirely under the JavaScript language by Isaac Schlueter, through which we can obtain any library with just a simple line of code, which will allow us to add dependencies in a simple way, distribute packages and efficiently manage both the modules and the project to be developed in general. There are other package managers like **[YARN](https://yarnpkg.com/)** and **[PNPM](https://pnpm.io/)**.
 
 ### Create React App
 
@@ -67,7 +68,7 @@ cd my-app
 npm start
 ```
 
-> _Note:_ Create React App CLI is no longer recommended to use, since its latest version is from April 2022.
+> _Note:_ **Create React App CLI is no longer recommended to use**, since its latest version is from April 2022.
 > React development team recently removed create-react-app from the official documentation. This means it is no longer the default method of setting up a new project in React. According to [this](https://github.com/reactjs/react.dev/pull/5487) pull request on Github, create-react-app is finally gone.
 
 **What are the alternatives?**

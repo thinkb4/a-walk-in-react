@@ -2,13 +2,14 @@
 
 ## DAY 6
 
-- [DAY 6](#day-6)
-  - [Other React built-in hooks](#other-react-builtin-hooks)
+- [A walk in React](#a-walk-in-react)
+  - [DAY 6](#day-6)
+  - [Other React built-in hooks](#other-react-built-in-hooks)
     - [useRef Hook](#useref-hook)
     - [useReducer](#usereducer)
-    - [Performance Hooks](#performance-hooks)
-      - [useMemo](#usememo)
-      - [useCallback](#usecallback)
+  - [Performance Hooks](#performance-hooks)
+    - [useMemo](#usememo)
+    - [useCallback](#usecallback)
   - [React Custom Hooks](#react-custom-hooks)
     - [What are they](#what-are-they)
     - [How to create them](#how-to-create-them)
@@ -248,7 +249,7 @@ function handleClick() {
   }, 5000);
 }
 
-// This is because state behaves like a snapshot The state update requests another render with the new state value, but does not affect the JavaScript variable in its statehandler of events already running.
+// This is because state behaves like a snapshot The state update requests another render with the new state value, but does not affect the JavaScript variable in its state handler of events already running.
 ```
 
 Furthermore, useReducer provides an alternative to the useState hook and can be particularly valuable when you need to manage more advanced state management scenarios, such as maintaining a history of state changes or handling asynchronous updates. By understanding and effectively utilizing the useReducer hook, you can enhance your React applications with a more structured and scalable approach to managing state complexity.
@@ -299,7 +300,7 @@ By utilizing the useMemo hook, you can optimize the performance of your React co
 
 > ### useMemo parameters
 >
-> - calculateValue: The function that calculates the value you want to memoize. It must be pure, it must not accept arguments, and it must return a value of any type. React will call your function during initial rendering. On subsequent renders, React will return the same value again if the values dependencias​​haven't changed since the last render. Otherwise, it will call **calculateValue**, return its result, and store it in case it can be reused later.
+> - calculateValue: The function that calculates the value you want to memoize. It must be pure, it must not accept arguments, and it must return a value of any type. React will call your function during initial rendering. On subsequent renders, React will return the same value again if the values dependencies ​​haven't changed since the last render. Otherwise, it will call **calculateValue**, return its result, and store it in case it can be reused later.
 >
 > - dependencies: The list of all reactive values ​​referenced within the code **calculateValue**. Reactive values ​​include props, state, and all variables and functions declared directly within the body of your component.
 >
